@@ -1,7 +1,7 @@
 # Campbell-Project-Lab-Factor-PCA-PAF
 ### Collaborators:
 - Arohan Sharma
-- Aparna Ambarappy
+- Aparna Ambarapu
 - Dylan Masters
 - Mark (Raiden) Egbert
 - Pratyush Kalli
