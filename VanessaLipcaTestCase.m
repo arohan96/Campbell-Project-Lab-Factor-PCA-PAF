@@ -6,7 +6,7 @@ drift = 0.0001;
 maxSecondFactorSize = 0.5;
 nFactorsToCompute = 6;
 idioVolScaler = 0.5;
-seedVal = -1;       % -1 => choose a new seed value
+seedVal = -1;      
 
 
 %% setup
@@ -20,9 +20,10 @@ disp(['using random seed ' num2str(seedVal)]);
 rng(seedVal);
 
 % useful functions
-h_deMean = @(x, dim) x - mean(x, dim, 'omitnan');
+h_deMean = @(x, dim) x - mean(x, dim, 'omitnan'); %changed nanmean to mean(x, dim, 'omitnan')
 h_makeRtns = @(nDays, nMkts, drift) h_deMean(randn(nDays, nMkts) ./ 100, 1) + drift;
 
+%PCA analysis function setup
 function [estFactorRtns, portBetas, factorVols] = myPca(mktRtns, myPositions, params)
     % Perform Principal Component Analysis (PCA) on market returns
     
@@ -50,8 +51,6 @@ function [estFactorRtns, portBetas, factorVols] = myPca(mktRtns, myPositions, pa
     
     % Return the estimated factor returns, portfolio betas, and factor volatilities
 end
-
-
 
 %% generate random data
 randVals = maxSecondFactorSize .* rand(nTrueFactors-1, 1);
@@ -89,8 +88,8 @@ disp(estPortVolBetas(1:nTrueFactors));
 disp(truePortVolBetas(1:nTrueFactors));
 
 % normalized factor returns
-estNormFactorRtns = estFactorRtns ./ factorVols';
-trueNormFactorRtns = factorRtns ./ std(factorRtns, 0, 1, 'omitnan');
+estNormFactorRtns = estFactorRtns ./ factorVols'; 
+trueNormFactorRtns = factorRtns ./ std(factorRtns, 0, 1, 'omitnan'); % changed nanstd to std(factorRtns, 0, 1, 'omitnan')
 
 flipSign = (sum(abs(estNormFactorRtns(:, 1:nTrueFactors) - trueNormFactorRtns)) > ...
             sum(abs(estNormFactorRtns(:, 1:nTrueFactors) + trueNormFactorRtns)));
