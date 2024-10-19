@@ -1,6 +1,8 @@
 function [estFactorRtns, portBetas, factorVols] = factorDecomposition( ...
     mktRtns, myPositions, params)
    
+    % De-meaning the market returns
+    mktRtns = mktRtns - mean(mktRtns);
     % Computing the covariance matrix
     factorCovMat = cov(mktRtns);
     
