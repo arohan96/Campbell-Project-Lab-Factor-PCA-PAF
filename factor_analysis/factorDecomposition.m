@@ -1,9 +1,10 @@
 function [estFactorRtns, portBetas, factorVols] = factorDecomposition( ...
     mktRtns, myPositions, params)
-    %factorDecomposition: Take as inpiut a matrix of market returns and 
+    %% factorDecomposition: 
+    % Take as inpiut a matrix of market returns and 
     % apply Common Factor Analysis using either Principal Component 
     % Analysis (PCA) or Principal Axis Factoring (PAF).
-    % Inputs:
+    %% Inputs:
     %   mktRtns: Txm matrix of market returns where T is the number of
     %   periods for which we have market returns and m is the total number 
     %   of market factors.
@@ -23,7 +24,7 @@ function [estFactorRtns, portBetas, factorVols] = factorDecomposition( ...
     %       constructing factor loadings.
     %       params.volLookback: Lookback period for computing factor
     %       volatilities.
-    % Outputs:
+    %% Outputs:
     %   estFactorRtns: a (T-factorConstructionLookback)xk matrix of factor 
     %   returns where T is the total 
     %   number of time periods and k is the number of factor loadings.
@@ -31,7 +32,7 @@ function [estFactorRtns, portBetas, factorVols] = factorDecomposition( ...
     %   portfolio's exposure to each of the k factors.
     %   factorVols: A 1xk matrix of factor volatilities (historical).
     %   indicates the gistorical volatility of each factor through the 
-    % given time period T.
+    %   given vol lookback period.
    
     % Loading model parameters
     T = params.nDays;

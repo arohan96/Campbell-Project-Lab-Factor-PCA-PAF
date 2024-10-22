@@ -31,8 +31,8 @@ function [estFactorRtns, portBetas, factorVols] = factorDecomposition( ...
     %   portBetas: A 1xk matrix of portfolio betas indicating the
     %   portfolio's exposure to each of the k factors.
     %   factorVols: A 1xk matrix of factor volatilities (historical).
-    %   indicates the gistorical volatility of each factor through the 
-    % given time period T.
+    %   indicates the historical volatility of each factor through the 
+    %   given vol lookback period.
    
     % Loading model parameters
     T = params.nDays;
