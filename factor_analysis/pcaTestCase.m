@@ -91,7 +91,7 @@ nTrueFactors = 4;
 drift = 0.0001;
 maxSecondFactorSize = 0.5;
 nFactorsToCompute = 6;
-idioVolScaler = 0.05;
+idioVolScaler = 0.5;
 seedVal = -1;       % -1 => choose a new seed value
 modelType = 'PCA';
 factorConstructionLookback = 10000;
