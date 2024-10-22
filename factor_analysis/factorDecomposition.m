@@ -25,13 +25,12 @@ function [estFactorRtns, portBetas, factorVols] = factorDecomposition( ...
     %       params.volLookback: Lookback period for computing factor
     %       volatilities.
     %% Outputs:
-    %   estFactorRtns: a (T-factorConstructionLookback)xk matrix of factor 
-    %   returns where T is the total 
+    %   estFactorRtns: a Txk matrix of factor returns where T is the total 
     %   number of time periods and k is the number of factor loadings.
     %   portBetas: A 1xk matrix of portfolio betas indicating the
     %   portfolio's exposure to each of the k factors.
     %   factorVols: A 1xk matrix of factor volatilities (historical).
-    %   indicates the gistorical volatility of each factor through the 
+    %   indicates the historical volatility of each factor through the 
     %   given vol lookback period.
    
     % Loading model parameters
