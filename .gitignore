@@ -29,3 +29,9 @@ codegen/
 
 # Octave session info
 octave-workspace
+
+# PYCHARM IDE File
+.idea/
+
+# Junk Data files
+.DS_Store
