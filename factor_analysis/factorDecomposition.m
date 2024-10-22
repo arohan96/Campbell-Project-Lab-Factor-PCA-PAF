@@ -2,13 +2,11 @@ function [estFactorRtns, portBetas, factorVols] = factorDecomposition(mktRtns, m
    
     % De-meaning the market returns
     mktRtns = mktRtns - mean(mktRtns);
-    % Computing the covariance matrix
-    factorCovMat = cov(mktRtns);
     
     % Check Model Type
     if params.modelType == "PCA"
         % Apply PCA to compute Factor Loadings
-        factorLoadings = pca(factorCovMat);
+        factorLoadings = pca(mktRtns);
         % Consider only the first k principal components
         k = params.nFactorsToCompute;
         factorLoadings = factorLoadings(:, 1:k);
