@@ -46,12 +46,12 @@ function [estFactorRtns, portBetas, factorVols] = factorDecomposition( ...
     mktRtnsLookbackAdj = mktRtnsLookbackAdj - mean(mktRtnsLookbackAdj);
     % Taking into account returns only till the factor construction
     % lookback period
-    covMatrix = cov(mktRtnsLookbackAdj);
+    corrMatrix = corr(mktRtnsLookbackAdj);
     
     % Check Model Type
     if params.modelType == "PCA"
         % Eigenvalue Decomposition
-        [eigVecs, eigVals] = eig(covMatrix);
+        [eigVecs, eigVals] = eig(corrMatrix);
         % Sorting eigen vectors in descending order of eigen values
         [eigValsSorted, idx] = sort(diag(eigVals), 'descend'); %#ok<ASGLU>
         eigVecsSorted = eigVecs(:, idx);
@@ -70,9 +70,69 @@ function [estFactorRtns, portBetas, factorVols] = factorDecomposition( ...
         factorVols = std(rtnsAdjVolLookback);
 
     elseif params.modelType == "PAF"
-        ME = MException('Model Type %s is not implemented', ...
-            params.modelType);
-        throw(ME);
+        % The PAF Model adopts an iterative process for SVD with a reduced
+        % correlation matrix. If we define our correlation matrix as C, we
+        % define the reduced covariance matrix as C - U^2, where U^2 is
+        % a diagonal matrix signifying the 'communalities' of our factors.
+        % Communalities are essentially the portion of each variable's
+        % variance that can be explained by other common factors. We, thus,
+        % reduce the covariance matrix iteratively in order to account for
+        % these communalities and remove the 'unique variance' that each
+        % variable has, taking into account only 'common variances'. We
+        % start with an initial estimate of U^2 as the diagonal matrix of
+        % squared multiple covariance for each of the underlying
+        % variable, reduce the covariance matrix using these communalities,
+        % apply SVD to get factor loadings, calculate subsequent
+        % communalities as the sum of squared loadings, and iteratively
+        % repeat this process until we get a stable solution for
+        % communalities. This function stops the iterative process when the
+        % max of the absolute value of the difference of communalities
+        % between the current and previous iteration is < 10^-3 or the code
+        % hits 1,000,000 iterations. 
+
+        % Estimate initial communalities as squared multiple covariances
+        u_prev = diag(inv(corrMatrix));
+        u_prev = (1./u_prev);
+        % Adjust diagonal of the correlation matrix with communalities
+        reducedMatrix = corrMatrix - diag(u_prev);
+        % Applying SVD
+        [eigenVectors, eigenValues] = eig(reducedMatrix);
+        eigenValues = diag(eigenValues);
+        % Sorting in order of decreasing eigenvalues
+        [eigenValues, sortIdx] = sort(eigenValues, 'descend'); %#ok<ASGLU>
+        eigenVectors = eigenVectors(:, sortIdx);
+        % Update the estimated communalities as 1 - the sum of squared 
+        % factor loadings
+        u_curr = 1 - sum(eigenVectors.^2);
+        u_curr = u_curr';
+        max_comm_diff = max(abs(u_curr - u_prev));
+        % Iteratively applying SVD to reduced covariance matrix until the
+        % max of absolute difference between subsequent communalities is 
+        % less than 10^-3
+        while max_comm_diff > 10^-3
+            u_prev = u_curr;
+            reducedMatrix = corrMatrix - diag(u_prev);
+            [eigenVectors, eigenValues] = eig(reducedMatrix);
+            eigenValues = diag(eigenValues);
+            [eigenValues, sortIdx] = sort(eigenValues, 'descend'); %#ok<ASGLU>
+            eigenVectors = eigenVectors(:, sortIdx);
+            u_curr = 1 - sum(eigenVectors.^2);
+            u_curr = u_curr';
+            max_comm_diff = max(abs(u_curr - u_prev));
+        end
+       
+        % Computing the first 'k' factors
+        factorLoadings = eigenVectors(:, 1:k);
+        % Compute Factor returns
+        estFactorRtns = mktRtns*factorLoadings;
+        % Compute factor vols
+        portBetas = myPositions*factorLoadings;
+        % Adjusting returns for volatility Lookback
+        rtnsAdjVolLookback = estFactorRtns( ...
+            factorConstructionlookback - volLookback + 1: ...
+            factorConstructionlookback, :);
+        % Computing Vol over Lookback period
+        factorVols = std(rtnsAdjVolLookback);
 
     else
         ME = MException('Model Type %s is not implemented', ...
@@ -85,14 +145,14 @@ end
 
 %% params
 nDays = 10000;
-nMkts = 1000;
+nMkts = 10;
 nTrueFactors = 4;
 drift = 0.0001;
 maxSecondFactorSize = 0.5;
 nFactorsToCompute = 6;
 idioVolScaler = 0.5;
 seedVal = -1;       % -1 => choose a new seed value
-modelType = 'PCA';
+modelType = 'PAF';
 factorConstructionLookback = 10000;
 volLookback = 10000;
 
