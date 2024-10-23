@@ -46,12 +46,12 @@ function [estFactorRtns, portBetas, factorVols] = factorDecomposition( ...
     mktRtnsLookbackAdj = mktRtnsLookbackAdj - mean(mktRtnsLookbackAdj);
     % Taking into account returns only till the factor construction
     % lookback period
-    covMatrix = cov(mktRtnsLookbackAdj);
+    corrMatrix = corr(mktRtnsLookbackAdj);
     
     % Check Model Type
     if params.modelType == "PCA"
         % Eigenvalue Decomposition
-        [eigVecs, eigVals] = eig(covMatrix);
+        [eigVecs, eigVals] = eig(corrMatrix);
         % Sorting eigen vectors in descending order of eigen values
         [eigValsSorted, idx] = sort(diag(eigVals), 'descend'); %#ok<ASGLU>
         eigVecsSorted = eigVecs(:, idx);
@@ -72,29 +72,31 @@ function [estFactorRtns, portBetas, factorVols] = factorDecomposition( ...
     elseif params.modelType == "PAF"
         % The PAF Model adopts an iterative process for SVD with a reduced
         % correlation matrix. If we define our correlation matrix as C, we
-        % define the reduced covariance matrix as C - U^2, where U^2 is
-        % a diagonal matrix of 1 - 'communalities' of our factors.
+        % define the reduced correlation matrix as the correlation matrix
+        % but with diagonal elements replaced with 'communalities'.
         % Communalities are essentially the portion of each variable's
         % variance that can be explained by other common factors. We, thus,
-        % reduce the covariance matrix iteratively in order to account for
+        % reduce the correlation matrix iteratively in order to account for
         % these communalities and remove the 'unique variance' that each
         % variable has, taking into account only 'common variances'. We
-        % start with an initial estimate of U^2 as the diagonal matrix of
-        % squared multiple covariance for each of the underlying
-        % variable, reduce the covariance matrix using these communalities,
-        % apply SVD to get factor loadings, calculate subsequent
-        % communalities as the sum of squared loadings, and iteratively
-        % repeat this process until we get a stable solution for
-        % communalities. This function stops the iterative process when the
-        % max of the absolute value of the difference of communalities
-        % between the current and previous iteration is < 10^-3 or the code
-        % hits 1,000,000 iterations. 
+        % start with an initial estimate of communalities as the square
+        % multiple correlation for each of the underlying variable,
+        % reduce the correlation matrix using these communalities, apply
+        % SVD to get factor loadings, calculate subsequent communalities
+        % as the sum of squared loadings, and iteratively repeat
+        % this process until we get a stable solution for communalities.
+        % This function stops the iterative process when the max of the
+        % mabsolute value of the difference of communalities between
+        % the current and previous iteration is < 10^-3
 
         % Estimate initial communalities as squared multiple correlation
-        u_prev = diag(inv(covMatrix));
-        u_prev = (1./u_prev);
+        u_prev = diag(inv(corrMatrix));
+        u_prev = 1 - (1./u_prev);
         % Adjust diagonal of the correlation matrix with communalities
-        reducedMatrix = covMatrix - diag(u_prev);
+        reducedMatrix = corrMatrix;
+        for i = 1:size(corrMatrix, 1)
+            reducedMatrix(i, i) = u_prev(i);
+        end
         % Applying SVD
         [eigenVectors, eigenValues] = eig(reducedMatrix);
         eigenValues = diag(eigenValues);
@@ -103,22 +105,25 @@ function [estFactorRtns, portBetas, factorVols] = factorDecomposition( ...
         eigenVectors = eigenVectors(:, sortIdx);
         % Update the estimated unique variances as 1 - the sum of squared 
         % factor loadings
-        u_curr = 1 - sum(eigenVectors.^2);
+        u_curr = sum(eigenVectors.^2);
         u_curr = u_curr';
-        max_comm_diff = max(abs(u_curr - u_prev));
-        % Iteratively applying SVD to reduced covariance matrix until the
+        comm_diff = abs(u_curr - u_prev);
+        % Iteratively applying SVD to reduced correlation matrix until the
         % max of absolute difference between subsequent unique variances is 
         % less than 10^-3
-        while max_comm_diff > 10^-5
+        while comm_diff > 10^-3
             u_prev = u_curr;
-            reducedMatrix = covMatrix - diag(u_prev);
+            reducedMatrix = corrMatrix;
+            for i = 1:size(corrMatrix, 1)
+                reducedMatrix(i, i) = u_prev(i);
+            end
             [eigenVectors, eigenValues] = eig(reducedMatrix);
             eigenValues = diag(eigenValues);
             [eigenValues, sortIdx] = sort(eigenValues, 'descend'); %#ok<ASGLU>
             eigenVectors = eigenVectors(:, sortIdx);
             u_curr = 1 - sum(eigenVectors.^2);
             u_curr = u_curr';
-            max_comm_diff = max(abs(u_curr - u_prev));
+            comm_diff = abs(u_curr - u_prev);
         end
        
         % Computing the first 'k' factors
@@ -150,11 +155,11 @@ nTrueFactors = 4;
 drift = 0.0001;
 maxSecondFactorSize = 0.5;
 nFactorsToCompute = 6;
-idioVolScaler = 0.05;
+idioVolScaler = 0.5;
 seedVal = -1;       % -1 => choose a new seed value
 modelType = 'PAF';
-factorConstructionLookback = 2000;
-volLookback = 2000;
+factorConstructionLookback = 10000;
+volLookback = 10000;
 
 
 %% setup
