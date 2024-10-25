@@ -64,40 +64,35 @@ function [estFactorRtns, portBetas, factorVols] = factorDecomposition( ...
         portBetas = myPositions*factorLoadings;
         % Adjusting returns for volatility Lookback
         rtnsAdjVolLookback = estFactorRtns( ...
-            factorConstructionlookback - volLookback + 1: ...
-            factorConstructionlookback, :);
+            T - volLookback + 1: ...
+            T, :);
         % Computing Vol over Lookback period
         factorVols = std(rtnsAdjVolLookback);
 
     elseif params.modelType == "PAF"
         % The PAF Model adopts an iterative process for SVD with a reduced
         % correlation matrix. If we define our correlation matrix as C, we
-        % define the reduced correlation matrix as C - U^2, where U^2 is
-        % a diagonal matrix of 1 - 'communalities' of our factors.
+        % define the reduced correlation matrix as the correlation matrix
+        % but with diagonal elements replaced with 'communalities'.
         % Communalities are essentially the portion of each variable's
         % variance that can be explained by other common factors. We, thus,
         % reduce the correlation matrix iteratively in order to account for
         % these communalities and remove the 'unique variance' that each
         % variable has, taking into account only 'common variances'. We
-        % start with an initial estimate of U^2 as the diagonal matrix of
-        % squared multiple correlation for each of the underlying
-        % variable, reduce the correlation matrix using these communalities,
-        % apply SVD to get factor loadings, calculate subsequent
-        % communalities as the sum of squared loadings, and iteratively
-        % repeat this process until we get a stable solution for
-        % communalities. This function stops the iterative process when the
-        % max of the absolute value of the difference of communalities
-        % between the current and previous iteration is < 10^-3 or the code
-        % hits 1,000,000 iterations. 
+        % start with an initial estimate of communalities as the square
+        % multiple correlation for each of the underlying variable,
+        % reduce the correlation matrix using these communalities, apply
+        % SVD to get factor loadings, calculate subsequent communalities
+        % as the sum of squared loadings, and iteratively repeat
+        % this process until we get a stable solution for communalities.
+        % This function stops the iterative process when the max of the
+        % mabsolute value of the difference of communalities between
+        % the current and previous iteration is < 10^-3
 
         % Estimate initial communalities as squared multiple correlation
-        u_prev = diag(inv(corrMatrix));
-        u_prev = 1 - (1./u_prev);
+        u_prev = sum(corrMatrix.^2) - 1;
         % Adjust diagonal of the correlation matrix with communalities
-        reducedMatrix = corrMatrix;
-        for i = 1:size(corrMatrix, 1)
-            reducedMatrix(i, i) = u_prev(i);
-        end
+        reducedMatrix = corrMatrix - eye(size(corrMatrix)) + diag(u_prev);
         % Applying SVD
         [eigenVectors, eigenValues] = eig(reducedMatrix);
         eigenValues = diag(eigenValues);
@@ -112,21 +107,19 @@ function [estFactorRtns, portBetas, factorVols] = factorDecomposition( ...
         % Iteratively applying SVD to reduced correlation matrix until the
         % max of absolute difference between subsequent unique variances is 
         % less than 10^-3
-        while comm_diff > 10^-3
+        while max(comm_diff) > 10^-3
             u_prev = u_curr;
-            reducedMatrix = corrMatrix;
-            for i = 1:size(corrMatrix, 1)
-                reducedMatrix(i, i) = u_prev(i);
-            end
+            reducedMatrix = corrMatrix - eye( ...
+                size(corrMatrix)) + diag(u_prev);
             [eigenVectors, eigenValues] = eig(reducedMatrix);
             eigenValues = diag(eigenValues);
-            [eigenValues, sortIdx] = sort(eigenValues, 'descend'); %#ok<ASGLU>
+            [eigenValues, sortIdx] = sort(eigenValues, 'descend'); %#ok<ASGLU
             eigenVectors = eigenVectors(:, sortIdx);
-            u_curr = 1 - sum(eigenVectors.^2);
-            u_curr = u_curr';
+            positiveEigenValues = max(eigenValues, 0);
+            eigenVectors = eigenVectors*diag(sqrt(positiveEigenValues));
+            u_curr = sum(eigenVectors.^2, 2);
             comm_diff = abs(u_curr - u_prev);
         end
-       
         % Computing the first 'k' factors
         factorLoadings = eigenVectors(:, 1:k);
         % Compute Factor returns

@@ -64,8 +64,8 @@ function [estFactorRtns, portBetas, factorVols] = factorDecomposition( ...
         portBetas = myPositions*factorLoadings;
         % Adjusting returns for volatility Lookback
         rtnsAdjVolLookback = estFactorRtns( ...
-            factorConstructionlookback - volLookback + 1: ...
-            factorConstructionlookback, :);
+            T - volLookback + 1: ...
+            T, :);
         % Computing Vol over Lookback period
         factorVols = std(rtnsAdjVolLookback);
 
@@ -90,13 +90,9 @@ function [estFactorRtns, portBetas, factorVols] = factorDecomposition( ...
         % the current and previous iteration is < 10^-3
 
         % Estimate initial communalities as squared multiple correlation
-        u_prev = diag(inv(corrMatrix));
-        u_prev = 1 - (1./u_prev);
+        u_prev = sum(corrMatrix.^2) - 1;
         % Adjust diagonal of the correlation matrix with communalities
-        reducedMatrix = corrMatrix;
-        for i = 1:size(corrMatrix, 1)
-            reducedMatrix(i, i) = u_prev(i);
-        end
+        reducedMatrix = corrMatrix - eye(size(corrMatrix)) + diag(u_prev);
         % Applying SVD
         [eigenVectors, eigenValues] = eig(reducedMatrix);
         eigenValues = diag(eigenValues);
@@ -111,21 +107,19 @@ function [estFactorRtns, portBetas, factorVols] = factorDecomposition( ...
         % Iteratively applying SVD to reduced correlation matrix until the
         % max of absolute difference between subsequent unique variances is 
         % less than 10^-3
-        while comm_diff > 10^-3
+        while max(comm_diff) > 10^-3
             u_prev = u_curr;
-            reducedMatrix = corrMatrix;
-            for i = 1:size(corrMatrix, 1)
-                reducedMatrix(i, i) = u_prev(i);
-            end
+            reducedMatrix = corrMatrix - eye( ...
+                size(corrMatrix)) + diag(u_prev);
             [eigenVectors, eigenValues] = eig(reducedMatrix);
             eigenValues = diag(eigenValues);
-            [eigenValues, sortIdx] = sort(eigenValues, 'descend'); %#ok<ASGLU>
+            [eigenValues, sortIdx] = sort(eigenValues, 'descend'); %#ok<ASGLU
             eigenVectors = eigenVectors(:, sortIdx);
-            u_curr = 1 - sum(eigenVectors.^2);
-            u_curr = u_curr';
+            positiveEigenValues = max(eigenValues, 0);
+            eigenVectors = eigenVectors*diag(sqrt(positiveEigenValues));
+            u_curr = sum(eigenVectors.^2, 2);
             comm_diff = abs(u_curr - u_prev);
         end
-       
         % Computing the first 'k' factors
         factorLoadings = eigenVectors(:, 1:k);
         % Compute Factor returns
@@ -153,7 +147,7 @@ nDays = 10000;
 nMkts = 1000;
 nTrueFactors = 4;
 drift = 0.0001;
-maxSecondFactorSize = 0.5;
+maxSecondFactorSize = 10;
 nFactorsToCompute = 6;
 idioVolScaler = 0.5;
 seedVal = -1;       % -1 => choose a new seed value
