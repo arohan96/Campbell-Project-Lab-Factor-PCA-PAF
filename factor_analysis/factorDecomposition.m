@@ -90,33 +90,29 @@ function [estFactorRtns, portBetas, factorVols] = factorDecomposition( ...
         % the current and previous iteration is < 10^-3
 
         % Estimate initial communalities as squared multiple correlation
-        u_prev = sum(corrMatrix.^2) - 1;
-        % Adjust diagonal of the correlation matrix with communalities
-        reducedMatrix = corrMatrix - eye(size(corrMatrix)) + diag(u_prev);
-        % Applying SVD
-        [eigenVectors, eigenValues] = eig(reducedMatrix);
-        eigenValues = diag(eigenValues);
-        % Sorting in order of decreasing eigenvalues
-        [eigenValues, sortIdx] = sort(eigenValues, 'descend'); %#ok<ASGLU>
-        eigenVectors = eigenVectors(:, sortIdx);
-        % Update the estimated unique variances as 1 - the sum of squared 
-        % factor loadings
-        u_curr = sum(eigenVectors.^2);
-        u_curr = u_curr';
-        comm_diff = abs(u_curr - u_prev);
+        u_curr = 1 - 1 ./ diag(inv(corrMatrix));
+
         % Iteratively applying SVD to reduced correlation matrix until the
-        % max of absolute difference between subsequent unique variances is 
-        % less than 10^-3
-        while max(comm_diff) > 10^-3
+        % max of absolute difference between subsequent communalities is 
+        % less than 10^-8
+        comm_diff = 1;
+        while max(comm_diff) > 10^-8
             u_prev = u_curr;
+            % Adjust diagonal of the correlation matrix with communalities
             reducedMatrix = corrMatrix - eye( ...
                 size(corrMatrix)) + diag(u_prev);
+            % Applying SVD
             [eigenVectors, eigenValues] = eig(reducedMatrix);
             eigenValues = diag(eigenValues);
+            % Sorting in order of decreasing eigenvalues
             [eigenValues, sortIdx] = sort(eigenValues, 'descend'); %#ok<ASGLU
             eigenVectors = eigenVectors(:, sortIdx);
+            % Taking only positive Eigenvalues
             positiveEigenValues = max(eigenValues, 0);
+            % Scaling eigenvectors with standard deviation
             eigenVectors = eigenVectors*diag(sqrt(positiveEigenValues));
+            % Update the estimated communalities as the sum of squared 
+            % factor loadings
             u_curr = sum(eigenVectors.^2, 2);
             comm_diff = abs(u_curr - u_prev);
         end
