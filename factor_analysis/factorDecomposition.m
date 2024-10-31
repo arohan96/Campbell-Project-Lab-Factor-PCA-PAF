@@ -1,6 +1,6 @@
 function [estFactorRtns, portBetas, factorVols] = factorDecomposition( ...
     mktRtns, myPositions, params)
-    %% factorDecomposition: 
+    %% factorDecomposition: Use either correlation or covariance matrix.
     % Take as input a matrix of market returns and 
     % apply Common Factor Analysis using either Principal Component 
     % Analysis (PCA) or Principal Axis Factoring (PAF).
@@ -13,12 +13,8 @@ function [estFactorRtns, portBetas, factorVols] = factorDecomposition( ...
     %   portfolio is assumed to be static across all time periods T.
     %   params: Model parameters. Should have the following variables:
     %       params.modelType: Factor decomposition model to use. Only
-    %       supports PCA and PAF. Note: Only PCA has been implemented right
-    %       now. TODO: Implement PAF
-    %       params.nFactorsToCompute: Number of factors to compute. The
-    %       first 'nFactorsToCompute' eigenvectors (sorted in
-    %       descending order of corresponding eigenvalue for PCA) are
-    %       considered as factor loadings.
+    %       supports PCA and PAF.
+    %       params.nFactorsToCompute: Number of factors to compute.
     %       params.nDays: The total time period 'T'.
     %       params.factorConstructionLookback: Lookback period for
     %       constructing factor loadings.
@@ -58,7 +54,6 @@ function [estFactorRtns, portBetas, factorVols] = factorDecomposition( ...
     if params.modelType == "PCA"
         % Eigenvalue Decomposition
         [eigVecs, eigVals] = eig(matrixType);
-        % Sorting eigen vectors in descending order of eigen values
         [eigValsSorted, idx] = sort(diag(eigVals), 'descend');
         eigVecsSorted = eigVecs(:, idx);
         % Computing the first 'k' factors
@@ -71,7 +66,7 @@ function [estFactorRtns, portBetas, factorVols] = factorDecomposition( ...
         
         % Compute Factor returns
         estFactorRtns = mktRtns*factorLoadings;
-        % Compute factor vols
+        % Compute portfolio betas
         portBetas = myPositions*factorLoadings;
         % Adjusting returns for volatility Lookback
         rtnsAdjVolLookback = estFactorRtns( ...
@@ -99,9 +94,12 @@ function [estFactorRtns, portBetas, factorVols] = factorDecomposition( ...
         % This function stops the iterative process when the max of the
         % mabsolute value of the difference of communalities between
         % the current and previous iteration is < 10^-3
-
-        % Initial communalities estimation
-        u_curr = 1 - 1 ./ diag(inv(matrixType));
+        % Estimate initial communalities as squared multiple correlation
+        if params.useCorrelation
+            u_curr = 1 - 1 ./ diag(inv(matrixType));
+        else
+            u_curr = diag(matrixType);
+        end
         % Iteratively applying SVD to reduced correlation matrix until the
         % max of absolute difference between subsequent communalities is 
         % less than 10^-8
@@ -109,34 +107,28 @@ function [estFactorRtns, portBetas, factorVols] = factorDecomposition( ...
         while max(comm_diff) > 10^-8
             u_prev = u_curr;
             % Reduced correlation/covariance matrix
-            reducedMatrix = matrixType - eye( ...
-                size(matrixType)) + diag(u_prev);
-            % Applying SVD
+            reducedMatrix = matrixType;
+            reducedMatrix(1:size(matrixType, 1) + 1:end) = u_prev;
+            % Eigen decomposition
             [eigenVectors, eigenValues] = eig(reducedMatrix);
             eigenValues = diag(eigenValues);
             % Sorting in order of decreasing eigenvalues
             [eigenValues, sortIdx] = sort(eigenValues, 'descend');
             eigenVectors = eigenVectors(:, sortIdx);
-            % Taking only positive Eigenvalues
+            % Only positive Eigenvalues
             positiveEigenValues = max(eigenValues, 0);
             % Scaling eigenvectors with standard deviation
             eigenVectors = eigenVectors*diag(sqrt(positiveEigenValues));
-            % Update the estimated communalities as the sum of squared 
-            % factor loadings
+            % Update communalities
             u_curr = sum(eigenVectors.^2, 2);
             comm_diff = abs(u_curr - u_prev);
         end
         % Computing the first 'k' factors
         factorLoadings = eigenVectors(:, 1:k);
 
-        % Optional normalization for covariance matrix
-        if ~params.useCorrelation
-            factorLoadings = factorLoadings ./ sqrt(diag(matrixType));
-        end
-
         % Compute Factor returns
         estFactorRtns = mktRtns*factorLoadings;
-        % Compute factor vols
+        % Compute portfolio betas
         portBetas = myPositions*factorLoadings;
         % Adjusting returns for volatility Lookback
         rtnsAdjVolLookback = estFactorRtns( ...
