@@ -30,7 +30,7 @@ function [estFactorRtns, portBetas, factorVols] = factorDecomposition( ...
     %       wether to normalize factor loadings or not
     %       params.rotationType: What factor rotation type to apply for
     %       rotating factors. The supported factor rotation types are 
-    %       varimax, quartimax, equamax, promax, orthomax. If an empty
+    %       varimax, quartimax, equamax, promax, orthomax, parsimax. If an empty
     %       string is passed, no factor rotation is applied
     %       params.orthoGamma: (0 < orthoGamma < 1) only used when 
     %       rotationType='orthomax'. coefficient that controls the 
