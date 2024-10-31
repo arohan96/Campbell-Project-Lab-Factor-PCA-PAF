@@ -12,7 +12,7 @@ factorConstructionLookback = 10000;
 volLookback = 10000;
 tolerance=1e-3;
 iterations=100;
-kaiserNormalizeLoadings = true;   % true or false (use kaiser normalization
+kaiserNormalizeLoadings = false;   % true or false (use kaiser normalization
 % for loadings?)
 rotationType = '';   % '', varimax, quartimax, promax, equamax, 
 % orthomax ('' = no rotation)
@@ -78,7 +78,6 @@ params.nDays = nDays;
 params.nMkts = nMkts;
 params.factorConstructionLookback = factorConstructionLookback;
 params.volLookback = factorConstructionLookback;
-params.useCorrelation=useCorrelation;
 params.tolerance = tolerance;
 params.iterations = iterations;
 params.kaiserNormalizeLoadings = kaiserNormalizeLoadings;
