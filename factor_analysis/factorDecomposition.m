@@ -66,11 +66,15 @@ function [estFactorRtns, portBetas, factorVols] = factorDecomposition( ...
     
     % Computing correlation matrix
     corrMatrix = corr(mktRtnsLookbackAdj);
+
+    % Setting up Eigen Value Decomposition object
+    evd = eigenValueDecomposition;
+    evd.corrMatrix = corrMatrix;
     
     % Check Model Type
     if params.modelType == "PCA"
-        % Eigenvalue Decomposition
-        [eigenValues, eigenVectors] = svdDecomp(corrMatrix);
+        % Eigenvalue Decomposition in line with PCA
+        [eigenValues, eigenVectors] = evd.PCA();
 
     elseif params.modelType == "PAF"
         % The PAF Model adopts an iterative process for SVD with a reduced
@@ -109,15 +113,8 @@ function [estFactorRtns, portBetas, factorVols] = factorDecomposition( ...
         end
         % Computing Eigenvalues, Eigenvectors, and Communalities using
         % Principal Axis Factoring (PAF)
-        [eigenValues, eigenVectors, communalities] = PAF(corrMatrix,...
-            tolerance, iterations);
-
-        % Visualize Communalities
-        figure;
-        bar(communalities);
-        title('Estimated Communalities');
-        xlabel('Market');
-        ylabel('Communality');
+        [eigenValues, eigenVectors, communalities] = evd.PAF(tolerance, ...
+            iterations);
 
     else
         ME = MException('Model Type %s is not implemented', ...
@@ -128,39 +125,38 @@ function [estFactorRtns, portBetas, factorVols] = factorDecomposition( ...
     % Computing the first 'k' factors
     factorLoadings = eigenVectors(:, 1:k);
 
-    % Plotting eigenvalues
-    % Scree Plot (Eigenvalue Plot)
-    figure;
-    plot(1:length(eigenValues), eigenValues, '-o');
-    title('Scree Plot (Eigenvalues)');
-    xlabel('Factor');
-    ylabel('Eigenvalue');
+    % Setting up visualization object for plotting graphs
+    plot = visualization;
+    plot.factorLoadings = factorLoadings;
+    plot.eigenValues = eigenValues;
 
-    % Variance Explained by Factors
-    totalVariance = sum(eigenValues);
-    explainedVariance = eigenValues / totalVariance * 100;
-    figure;
-    bar(explainedVariance);
-    title('Variance Explained by Each Factor');
-    xlabel('Factor');
-    ylabel('Percentage of Variance Explained');
-
-    %% kaiser normalization (optional, can use by itself or to prepare 
-    % factors for rotation)
-    if params.kaiserNormalizeLoadings == true
-        factorLoadings = kaiserNormalization(factorLoadings, ...
-            eigenValues(1:k));
+    if params.modelType == "PAF"
+        plot.communalities = communalities;
+        plot.plotCommunalities();
     end
+
+    % Plotting eigenvalues & Variance Explained by Factors
+    plot.plotEigenValues();
 
     %% call visualization before rotation (heatmap, bar chart)
     if (params.visualizeBeforeAfterRotation == "before") || ( ...
             params.visualizeBeforeAfterRotation == "both")
-        visualizeLoadingsHeat(factorLoadings, params.nFactorsToCompute, ...
+        plot.visualizeFactorLoadingsHeat(params.nFactorsToCompute, ...
+            params.rotationType, ...
+            params.numVariablesToShow,  'before rotation');
+        plot.visualizeFactorLoadingsBar(params.nFactorsToCompute, ...
             params.rotationType, params.numVariablesToShow, ...
             'before rotation');
-        visualizeLoadingsBar(factorLoadings, params.nFactorsToCompute, ...
-            params.rotationType, params.numVariablesToShow, ...
-            'before rotation');
+    end
+    
+    % Setting up factor rotation object
+    rotation = factorRotation;
+    rotation.factorLoadings = factorLoadings;
+    
+    %% kaiser normalization (optional, can use by itself or to prepare 
+    % factors for rotation)
+    if params.kaiserNormalizeLoadings == true
+        factorLoadings = rotation.kaiserNormalization(eigenValues(1:k));
     end
 
     %% call factor loading rotation function (optional)
@@ -170,8 +166,6 @@ function [estFactorRtns, portBetas, factorVols] = factorDecomposition( ...
     % unnormalized right after the rotation occurs. If 'off', the raw 
     % loadings are rotated and returned.
     if isfield(params, 'rotationType')
-        rotation = factorRotation;
-        rotation.factorLoadings = factorLoadings;
         if params.rotationType == "varimax"
             factorLoadings = rotation.varimaxRotation( ...
                 params.builtInNormalizeLoadings);
@@ -202,10 +196,10 @@ function [estFactorRtns, portBetas, factorVols] = factorDecomposition( ...
     %% call visualizations after rotation (heatmap, bar chart)
     if (params.visualizeBeforeAfterRotation == "after") || ( ...
             params.visualizeBeforeAfterRotation == "both")
-        visualizeLoadingsHeat(factorLoadings, params.nFactorsToCompute, ...
+        plot.visualizeFactorLoadingsHeat(factorLoadings, params.nFactorsToCompute, ...
             params.rotationType, params.numVariablesToShow, ...
             'after rotation');
-        visualizeLoadingsBar(factorLoadings, params.nFactorsToCompute, ...
+        plot.visualizeFactorLoadingsBar(factorLoadings, params.nFactorsToCompute, ...
             params.rotationType, params.numVariablesToShow, ...
             'after rotation');
     end
