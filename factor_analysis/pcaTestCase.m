@@ -12,7 +12,7 @@ factorConstructionLookback = 10000;
 volLookback = 10000;
 tolerance=1e-3;
 iterations=100;
-kaiserNormalizeLoadings = false;   % true or false (use kaiser normalization
+kaiserNormalizeLoadings = true;   % true or false (use kaiser normalization
 % for loadings?)
 rotationType = '';   % '', varimax, quartimax, promax, equamax, 
 % orthomax ('' = no rotation)
