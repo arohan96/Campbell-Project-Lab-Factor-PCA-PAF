@@ -1,9 +1,9 @@
 function [estFactorRtns, portBetas, factorVols] = factorDecomposition( ...
     mktRtns, myPositions, params)
-    %% factorDecomposition: Use either correlation or covariance matrix.
-    % Take as input a matrix of market returns and 
-    % apply Common Factor Analysis using either Principal Component 
-    % Analysis (PCA) or Principal Axis Factoring (PAF).
+    %% factorDecomposition
+    % Take as input a matrix of market returns and  apply dimensionality
+    % reduction using either Principal Component Analysis (PCA) or 
+    % Principal Axis Factoring (PAF).
     %% Inputs:
     %   mktRtns: Txm matrix of market returns where T is the number of
     %   periods for which we have market returns and m is the total number 
@@ -12,6 +12,7 @@ function [estFactorRtns, portBetas, factorVols] = factorDecomposition( ...
     %   the portfolio's position in each of the m market factors. The 
     %   portfolio is assumed to be static across all time periods T.
     %   params: Model parameters. Should have the following variables:
+    %%      Mandatory Parameters
     %       params.modelType: Factor decomposition model to use. Only
     %       supports PCA and PAF.
     %       params.nFactorsToCompute: Number of factors to compute.
@@ -20,8 +21,28 @@ function [estFactorRtns, portBetas, factorVols] = factorDecomposition( ...
     %       constructing factor loadings.
     %       params.volLookback: Lookback period for computing factor
     %       volatilities.
-    %       params.useCorrelation: Boolean flag, if true, use correlation
-    %       matrix; if false, use covariance matrix.
+    %%      Optional Parameters
+    %       params.tolerance: Tolerance level for convergence of
+    %       communalities for PAF method. Default is 1e-3
+    %       params.iterations: Number of iterations to run for PAF. Default
+    %       is 100 iterations
+    %       params.kaiserNormalizeLoadings: Boolean variable indicating
+    %       wether to normalize factor loadings or not
+    %       params.rotationType: What factor rotation type to apply for
+    %       rotating factors. The supported factor rotation types are 
+    %       varimax, quartimax, equamax, promax, orthomax. If an empty
+    %       string is passed, no factor rotation is applied
+    %       params.orthoGamma: (0 < orthoGamma < 1) only used when 
+    %       rotationType='orthomax'. coefficient that controls the 
+    %       correlation target between factors. 1=varimax, 0=quartimax 
+    %       (1=focus on orthogonality, 0=reduce the number of significant 
+    %       factors rather than maintaining strict orthogonality)
+    %       params.builtInNormalizeLoadings: Boolean. Wether to use 
+    %       built-in normalization in rotation function for loadings
+    %       params.visualizeBeforeAfterRotation: '', before, after, both 
+    %       ('' = none)
+    %       params.numVariablesToShow: Number of factors to use for 
+    %       visualization
     %% Outputs:
     %   estFactorRtns: a Txk matrix of factor returns where T is the total 
     %   number of time periods and k is the number of factor loadings.
@@ -43,37 +64,13 @@ function [estFactorRtns, portBetas, factorVols] = factorDecomposition( ...
     % De-meaning returns
     mktRtnsLookbackAdj = mktRtnsLookbackAdj - mean(mktRtnsLookbackAdj);
     
-    % Selecting the matrix type based on the flag
-    if params.useCorrelation
-        matrixType = corr(mktRtnsLookbackAdj);
-    else
-        matrixType = cov(mktRtnsLookbackAdj);
-    end
+    % Computing correlation matrix
+    corrMatrix = corr(mktRtnsLookbackAdj);
     
     % Check Model Type
     if params.modelType == "PCA"
         % Eigenvalue Decomposition
-        [eigVecs, eigVals] = eig(matrixType);
-        [eigValsSorted, idx] = sort(diag(eigVals), 'descend');
-        eigVecsSorted = eigVecs(:, idx);
-        % Computing the first 'k' factors
-        factorLoadings = eigVecsSorted(:, 1:k);
-
-        % Optional normalization for covariance matrix
-        if ~params.useCorrelation
-            factorLoadings = factorLoadings ./ sqrt(diag(matrixType));
-        end
-        
-        % Compute Factor returns
-        estFactorRtns = mktRtns*factorLoadings;
-        % Compute portfolio betas
-        portBetas = myPositions*factorLoadings;
-        % Adjusting returns for volatility Lookback
-        rtnsAdjVolLookback = estFactorRtns( ...
-            T - volLookback + 1: ...
-            T, :);
-        % Computing Vol over Lookback period
-        factorVols = std(rtnsAdjVolLookback);
+        [eigenValues, eigenVectors] = svdDecomp(corrMatrix);
 
     elseif params.modelType == "PAF"
         % The PAF Model adopts an iterative process for SVD with a reduced
@@ -93,53 +90,133 @@ function [estFactorRtns, portBetas, factorVols] = factorDecomposition( ...
         % this process until we get a stable solution for communalities.
         % This function stops the iterative process when the max of the
         % mabsolute value of the difference of communalities between
-        % the current and previous iteration is < 10^-3
+        % the current and previous iteration is < tolerance level
         % Estimate initial communalities as squared multiple correlation
-        if params.useCorrelation
-            u_curr = 1 - 1 ./ diag(inv(matrixType));
-        else
-            u_curr = diag(matrixType);
-        end
-        % Iteratively applying SVD to reduced correlation matrix until the
-        % max of absolute difference between subsequent communalities is 
-        % less than 10^-8
-        comm_diff = 1;
-        while max(comm_diff) > 10^-8
-            u_prev = u_curr;
-            % Reduced correlation/covariance matrix
-            reducedMatrix = matrixType;
-            reducedMatrix(1:size(matrixType, 1) + 1:end) = u_prev;
-            % Eigen decomposition
-            [eigenVectors, eigenValues] = eig(reducedMatrix);
-            eigenValues = diag(eigenValues);
-            % Sorting in order of decreasing eigenvalues
-            [eigenValues, sortIdx] = sort(eigenValues, 'descend');
-            eigenVectors = eigenVectors(:, sortIdx);
-            % Only positive Eigenvalues
-            positiveEigenValues = max(eigenValues, 0);
-            % Scaling eigenvectors with standard deviation
-            eigenVectors = eigenVectors*diag(sqrt(positiveEigenValues));
-            % Update communalities
-            u_curr = sum(eigenVectors.^2, 2);
-            comm_diff = abs(u_curr - u_prev);
-        end
-        % Computing the first 'k' factors
-        factorLoadings = eigenVectors(:, 1:k);
 
-        % Compute Factor returns
-        estFactorRtns = mktRtns*factorLoadings;
-        % Compute portfolio betas
-        portBetas = myPositions*factorLoadings;
-        % Adjusting returns for volatility Lookback
-        rtnsAdjVolLookback = estFactorRtns( ...
-            factorConstructionlookback - volLookback + 1: ...
-            factorConstructionlookback, :);
-        % Computing Vol over Lookback period
-        factorVols = std(rtnsAdjVolLookback);
+        if isfield(params, 'iterations')
+            % Use user provided number for running max iterations
+            iterations = params.iterations;
+        else
+            iterations = 100;
+        end
+
+        if isfield(params, 'tolerance')
+            % Use user provided tolerance for communality convergence
+            tolerance = params.tolerance;
+        else
+            % default tolerance set at 1e-3
+            tolerance = 1e-3;
+        end
+        % Computing Eigenvalues, Eigenvectors, and Communalities using
+        % Principal Axis Factoring (PAF)
+        [eigenValues, eigenVectors, communalities] = PAF(corrMatrix,...
+            tolerance, iterations);
+
+        % Visualize Communalities
+        figure;
+        bar(communalities);
+        title('Estimated Communalities');
+        xlabel('Market');
+        ylabel('Communality');
 
     else
         ME = MException('Model Type %s is not implemented', ...
             params.modelType);
         throw(ME);
     end
+
+    % Computing the first 'k' factors
+    factorLoadings = eigenVectors(:, 1:k);
+
+    % Plotting eigenvalues
+    % Scree Plot (Eigenvalue Plot)
+    figure;
+    plot(1:length(eigenValues), eigenValues, '-o');
+    title('Scree Plot (Eigenvalues)');
+    xlabel('Factor');
+    ylabel('Eigenvalue');
+
+    % Variance Explained by Factors
+    totalVariance = sum(eigenValues);
+    explainedVariance = eigenValues / totalVariance * 100;
+    figure;
+    bar(explainedVariance);
+    title('Variance Explained by Each Factor');
+    xlabel('Factor');
+    ylabel('Percentage of Variance Explained');
+
+    %% kaiser normalization (optional, can use by itself or to prepare 
+    % factors for rotation)
+    if params.kaiserNormalizeLoadings == true
+        factorLoadings = kaiserNormalization(factorLoadings, ...
+            eigenValues(1:k));
+    end
+
+    %% call visualization before rotation (heatmap, bar chart)
+    if (params.visualizeBeforeAfterRotation == "before") || ( ...
+            params.visualizeBeforeAfterRotation == "both")
+        visualizeLoadingsHeat(factorLoadings, params.nFactorsToCompute, ...
+            params.rotationType, params.numVariablesToShow, ...
+            'before rotation');
+        visualizeLoadingsBar(factorLoadings, params.nFactorsToCompute, ...
+            params.rotationType, params.numVariablesToShow, ...
+            'before rotation');
+    end
+
+    %% call factor loading rotation function (optional)
+    % Normalize - flag indicating whether the loadings matrix should be 
+    % row-normalized for rotation. If 'on' (default), rows of matrix are 
+    % normalized prior to rotation to have unit Euclidean norm, and
+    % unnormalized right after the rotation occurs. If 'off', the raw 
+    % loadings are rotated and returned.
+    if isfield(params, 'rotationType')
+        if params.rotationType == "varimax"
+            factorLoadings = varimaxRotation(factorLoadings, ...
+                params.builtInNormalizeLoadings);
+        elseif params.rotationType == "quartimax"
+            factorLoadings = quartimaxRotation(factorLoadings, ...
+                params.builtInNormalizeLoadings);
+        elseif params.rotationType == "equamax"
+            factorLoadings = equamaxRotation(factorLoadings, ...
+                params.builtInNormalizeLoadings);
+        elseif params.rotationType == "promax"
+            factorLoadings = promaxRotation(factorLoadings, ...
+                params.builtInNormalizeLoadings);
+        elseif params.rotationType == "orthomax"
+            factorLoadings = orthomaxRotation(factorLoadings, ...
+                params.builtInNormalizeLoadings, params.orthoGamma);
+        elseif params.rotationType == "parsimax"
+            factorLoadings = parsimaxRotation(factorLoadings, ...
+                params.builtInNormalizeLoadings);
+        elseif params.rotationType == ""
+        else
+            error( ...
+                ['Invalid rotationType: %s\nValid types: ' ...
+                'varimax, quartimax, equamax, promax, orthomax'], ...
+                rotationType);
+        end
+    end
+
+    %% call visualizations after rotation (heatmap, bar chart)
+    if (params.visualizeBeforeAfterRotation == "after") || ( ...
+            params.visualizeBeforeAfterRotation == "both")
+        visualizeLoadingsHeat(factorLoadings, params.nFactorsToCompute, ...
+            params.rotationType, params.numVariablesToShow, ...
+            'after rotation');
+        visualizeLoadingsBar(factorLoadings, params.nFactorsToCompute, ...
+            params.rotationType, params.numVariablesToShow, ...
+            'after rotation');
+    end
+
+    % Compute Factor returns
+    estFactorRtns = mktRtns*factorLoadings;
+    % Compute portfolio betas
+    portBetas = myPositions*factorLoadings;
+    % Adjusting returns for volatility Lookback
+    rtnsAdjVolLookback = estFactorRtns( ...
+        factorConstructionlookback - volLookback + 1: ...
+        factorConstructionlookback, :);
+    % Computing Vol over Lookback period
+    factorVols = std(rtnsAdjVolLookback);
+
 end
