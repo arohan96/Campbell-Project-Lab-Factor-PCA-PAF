@@ -1,7 +1,7 @@
 function [estFactorRtns, portBetas, factorVols] = factorDecomposition( ...
     mktRtns, myPositions, params)
     %% factorDecomposition: 
-    % Take as inpiut a matrix of market returns and 
+    % Take as input a matrix of market returns and 
     % apply Common Factor Analysis using either Principal Component 
     % Analysis (PCA) or Principal Axis Factoring (PAF).
     %% Inputs:
@@ -24,6 +24,8 @@ function [estFactorRtns, portBetas, factorVols] = factorDecomposition( ...
     %       constructing factor loadings.
     %       params.volLookback: Lookback period for computing factor
     %       volatilities.
+    %       params.useCorrelation: Boolean flag, if true, use correlation
+    %       matrix; if false, use covariance matrix.
     %% Outputs:
     %   estFactorRtns: a Txk matrix of factor returns where T is the total 
     %   number of time periods and k is the number of factor loadings.
@@ -44,19 +46,28 @@ function [estFactorRtns, portBetas, factorVols] = factorDecomposition( ...
     mktRtnsLookbackAdj = mktRtns(T-factorConstructionlookback+1:T, :);
     % De-meaning returns
     mktRtnsLookbackAdj = mktRtnsLookbackAdj - mean(mktRtnsLookbackAdj);
-    % Taking into account returns only till the factor construction
-    % lookback period
-    corrMatrix = corr(mktRtnsLookbackAdj);
+    
+    % Selecting the matrix type based on the flag
+    if params.useCorrelation
+        matrixType = corr(mktRtnsLookbackAdj);
+    else
+        matrixType = cov(mktRtnsLookbackAdj);
+    end
     
     % Check Model Type
     if params.modelType == "PCA"
         % Eigenvalue Decomposition
-        [eigVecs, eigVals] = eig(corrMatrix);
+        [eigVecs, eigVals] = eig(matrixType);
         % Sorting eigen vectors in descending order of eigen values
-        [eigValsSorted, idx] = sort(diag(eigVals), 'descend'); %#ok<ASGLU>
+        [eigValsSorted, idx] = sort(diag(eigVals), 'descend');
         eigVecsSorted = eigVecs(:, idx);
         % Computing the first 'k' factors
         factorLoadings = eigVecsSorted(:, 1:k);
+
+        % Optional normalization for covariance matrix
+        if ~params.useCorrelation
+            factorLoadings = factorLoadings ./ sqrt(diag(matrixType));
+        end
         
         % Compute Factor returns
         estFactorRtns = mktRtns*factorLoadings;
@@ -89,23 +100,22 @@ function [estFactorRtns, portBetas, factorVols] = factorDecomposition( ...
         % mabsolute value of the difference of communalities between
         % the current and previous iteration is < 10^-3
 
-        % Estimate initial communalities as squared multiple correlation
-        u_curr = 1 - 1 ./ diag(inv(corrMatrix));
-
+        % Initial communalities estimation
+        u_curr = 1 - 1 ./ diag(inv(matrixType));
         % Iteratively applying SVD to reduced correlation matrix until the
         % max of absolute difference between subsequent communalities is 
         % less than 10^-8
         comm_diff = 1;
         while max(comm_diff) > 10^-8
             u_prev = u_curr;
-            % Adjust diagonal of the correlation matrix with communalities
-            reducedMatrix = corrMatrix - eye( ...
-                size(corrMatrix)) + diag(u_prev);
+            % Reduced correlation/covariance matrix
+            reducedMatrix = matrixType - eye( ...
+                size(matrixType)) + diag(u_prev);
             % Applying SVD
             [eigenVectors, eigenValues] = eig(reducedMatrix);
             eigenValues = diag(eigenValues);
             % Sorting in order of decreasing eigenvalues
-            [eigenValues, sortIdx] = sort(eigenValues, 'descend'); %#ok<ASGLU
+            [eigenValues, sortIdx] = sort(eigenValues, 'descend');
             eigenVectors = eigenVectors(:, sortIdx);
             % Taking only positive Eigenvalues
             positiveEigenValues = max(eigenValues, 0);
@@ -118,6 +128,12 @@ function [estFactorRtns, portBetas, factorVols] = factorDecomposition( ...
         end
         % Computing the first 'k' factors
         factorLoadings = eigenVectors(:, 1:k);
+
+        % Optional normalization for covariance matrix
+        if ~params.useCorrelation
+            factorLoadings = factorLoadings ./ sqrt(diag(matrixType));
+        end
+
         % Compute Factor returns
         estFactorRtns = mktRtns*factorLoadings;
         % Compute factor vols
@@ -133,6 +149,5 @@ function [estFactorRtns, portBetas, factorVols] = factorDecomposition( ...
         ME = MException('Model Type %s is not implemented', ...
             params.modelType);
         throw(ME);
-
     end
 end
