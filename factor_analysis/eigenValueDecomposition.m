@@ -7,13 +7,13 @@ classdef eigenValueDecomposition
     methods
         
         function [eigenValues, eigenVectors] = PCA(obj)
-        %% svdDecomp
+        %% PCA
         % Singular Value Decomposition for a given correlation matrix
         %% Inputs
         %   corrMatrix: correlation matrix of underlying factors
         %% Output
         %   eigenValues: Eigenvalues arranged in decreasing order of 
-        %   magnitude
+        %   magnitudeg
         %   eigenVectors: A matrix where each column represents an 
         %   eigenvector.
         %   Columns arranged in order of decreasing corresponding 
