@@ -54,7 +54,6 @@ function [estFactorRtns, portBetas, factorVols] = factorDecomposition( ...
    
     % Loading model parameters
     T = params.nDays;
-    m = params.nMkts;
     k = params.nFactorsToCompute;
     factorConstructionlookback = params.factorConstructionLookback;
     volLookback = params.volLookback;
@@ -125,28 +124,31 @@ function [estFactorRtns, portBetas, factorVols] = factorDecomposition( ...
     % Computing the first 'k' factors
     factorLoadings = eigenVectors(:, 1:k);
 
-    % Setting up visualization object for plotting graphs
-    plot = visualization;
-    plot.factorLoadings = factorLoadings;
-    plot.eigenValues = eigenValues;
-
-    if params.modelType == "PAF"
-        plot.communalities = communalities;
-        plot.plotCommunalities();
-    end
-
-    % Plotting eigenvalues & Variance Explained by Factors
-    plot.plotEigenValues();
-
-    %% call visualization before rotation (heatmap, bar chart)
-    if (params.visualizeBeforeAfterRotation == "before") || ( ...
-            params.visualizeBeforeAfterRotation == "both")
-        plot.visualizeFactorLoadingsHeat(params.nFactorsToCompute, ...
-            params.rotationType, ...
-            params.numVariablesToShow,  'before rotation');
-        plot.visualizeFactorLoadingsBar(params.nFactorsToCompute, ...
-            params.rotationType, params.numVariablesToShow, ...
-            'before rotation');
+    % Check if visualization is set to true
+    if params.visualize == true
+        % Setting up visualization object for plotting graphs
+        plot = visualization;
+        plot.factorLoadings = factorLoadings;
+        plot.eigenValues = eigenValues;
+    
+        if params.modelType == "PAF"
+            plot.communalities = communalities;
+            plot.plotCommunalities();
+        end
+    
+        % Plotting eigenvalues & Variance Explained by Factors
+        plot.plotEigenValues();
+    
+        %% call visualization before rotation (heatmap, bar chart)
+        if (params.visualizeBeforeAfterRotation == "before") || ( ...
+                params.visualizeBeforeAfterRotation == "both")
+            plot.visualizeFactorLoadingsHeat(params.nFactorsToCompute, ...
+                params.rotationType, ...
+                params.numVariablesToShow,  'before rotation');
+            plot.visualizeFactorLoadingsBar(params.nFactorsToCompute, ...
+                params.rotationType, params.numVariablesToShow, ...
+                'before rotation');
+        end
     end
     
     % Setting up factor rotation object
@@ -192,16 +194,19 @@ function [estFactorRtns, portBetas, factorVols] = factorDecomposition( ...
                 rotationType);
         end
     end
-
-    %% call visualizations after rotation (heatmap, bar chart)
-    if (params.visualizeBeforeAfterRotation == "after") || ( ...
-            params.visualizeBeforeAfterRotation == "both")
-        plot.visualizeFactorLoadingsHeat(factorLoadings, params.nFactorsToCompute, ...
-            params.rotationType, params.numVariablesToShow, ...
-            'after rotation');
-        plot.visualizeFactorLoadingsBar(factorLoadings, params.nFactorsToCompute, ...
-            params.rotationType, params.numVariablesToShow, ...
-            'after rotation');
+    
+    % Check if visualization is true
+    if params.visualize == true
+        %% call visualizations after rotation (heatmap, bar chart)
+        if (params.visualizeBeforeAfterRotation == "after") || ( ...
+                params.visualizeBeforeAfterRotation == "both")
+            plot.visualizeFactorLoadingsHeat(factorLoadings, ...
+                params.nFactorsToCompute, params.rotationType, ...
+                params.numVariablesToShow, 'after rotation');
+            plot.visualizeFactorLoadingsBar(factorLoadings, ...
+                params.nFactorsToCompute, params.rotationType, ...
+                params.numVariablesToShow, 'after rotation');
+        end
     end
 
     % Compute Factor returns
