@@ -75,8 +75,10 @@ classdef eigenValueDecomposition
                 u_prev = u_curr;
                 % Reduced correlation matrix
                 reducedMatrix = obj.corrMatrix;
-                reducedMatrix(1:size(obj.corrMatrix, 1) + 1:end) = u_prev;
-                % Eigen decomposition
+                n = size(obj.corrMatrix, 1);
+                diagonal_indices = sub2ind([n, n], 1:n, 1:n);
+                reducedMatrix(diagonal_indices) = u_prev;
+                % Eigen value decomposition
                 [eigenVectors, eigenValues] = eig(reducedMatrix);
                 eigenValues = diag(eigenValues);
                 % Sorting in order of decreasing eigenvalues
