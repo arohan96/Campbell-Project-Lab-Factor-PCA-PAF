@@ -213,7 +213,8 @@ function [estFactorRtns, portBetas, factorVols] = factorDecomposition( ...
     % Compute Factor returns
     estFactorRtns = mktRtns*factorLoadings;
     % Compute portfolio betas
-    portBetas = myPositions*factorLoadings;
+    portReturns = mktRtns*myPositions';
+    portBetas = regress(portReturns, estFactorRtns);
     % Adjusting returns for volatility Lookback
     rtnsAdjVolLookback = estFactorRtns(T - volLookback + 1:T, :);
     % Computing Vol over Lookback period
