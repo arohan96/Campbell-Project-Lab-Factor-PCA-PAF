@@ -54,7 +54,6 @@ function [estFactorRtns, portBetas, factorVols] = factorDecomposition( ...
    
     % Loading model parameters
     T = params.nDays;
-    m = params.nMkts;
     k = params.nFactorsToCompute;
     factorConstructionlookback = params.factorConstructionLookback;
     volLookback = params.volLookback;
@@ -125,28 +124,31 @@ function [estFactorRtns, portBetas, factorVols] = factorDecomposition( ...
     % Computing the first 'k' factors
     factorLoadings = eigenVectors(:, 1:k);
 
-    % Setting up visualization object for plotting graphs
-    plot = visualization;
-    plot.factorLoadings = factorLoadings;
-    plot.eigenValues = eigenValues;
-
-    if params.modelType == "PAF"
-        plot.communalities = communalities;
-        plot.plotCommunalities();
-    end
-
-    % Plotting eigenvalues & Variance Explained by Factors
-    plot.plotEigenValues();
-
-    %% call visualization before rotation (heatmap, bar chart)
-    if (params.visualizeBeforeAfterRotation == "before") || ( ...
-            params.visualizeBeforeAfterRotation == "both")
-        plot.visualizeFactorLoadingsHeat(params.nFactorsToCompute, ...
-            params.rotationType, ...
-            params.numVariablesToShow,  'before rotation');
-        plot.visualizeFactorLoadingsBar(params.nFactorsToCompute, ...
-            params.rotationType, params.numVariablesToShow, ...
-            'before rotation');
+    % Check if visualization is set to true
+    if params.visualize == true
+        % Setting up visualization object for plotting graphs
+        plot = visualization;
+        plot.factorLoadings = factorLoadings;
+        plot.eigenValues = eigenValues;
+    
+        if params.modelType == "PAF"
+            plot.communalities = communalities;
+            plot.plotCommunalities();
+        end
+    
+        % Plotting eigenvalues & Variance Explained by Factors
+        plot.plotEigenValues();
+    
+        %% call visualization before rotation (heatmap, bar chart)
+        if (params.visualizeBeforeAfterRotation == "before") || ( ...
+                params.visualizeBeforeAfterRotation == "both")
+            plot.visualizeFactorLoadingsHeat(params.nFactorsToCompute, ...
+                params.rotationType, ...
+                params.numVariablesToShow,  'before rotation');
+            plot.visualizeFactorLoadingsBar(params.nFactorsToCompute, ...
+                params.rotationType, params.numVariablesToShow, ...
+                'before rotation');
+        end
     end
     
     % Setting up factor rotation object
@@ -166,48 +168,53 @@ function [estFactorRtns, portBetas, factorVols] = factorDecomposition( ...
     % unnormalized right after the rotation occurs. If 'off', the raw 
     % loadings are rotated and returned.
     if isfield(params, 'rotationType')
-        if params.rotationType == "varimax"
-            factorLoadings = rotation.varimaxRotation( ...
-                params.builtInNormalizeLoadings);
-        elseif params.rotationType == "quartimax"
-            factorLoadings = rotation.quartimaxRotation( ...
-                params.builtInNormalizeLoadings);
-        elseif params.rotationType == "equamax"
-            factorLoadings = rotation.equamaxRotation(...
-                params.builtInNormalizeLoadings);
-        elseif params.rotationType == "promax"
-            factorLoadings = rotation.promaxRotation(...
-                params.builtInNormalizeLoadings);
-        elseif params.rotationType == "orthomax"
-            factorLoadings = rotation.orthomaxRotation(...
-                params.builtInNormalizeLoadings, params.orthoGamma);
-        elseif params.rotationType == "parsimax"
-            factorLoadings = rotation.parsimaxRotation(...
-                params.builtInNormalizeLoadings);
-        elseif params.rotationType == ""
-        else
-            error( ...
-                ['Invalid rotationType: %s\nValid types: ' ...
-                'varimax, quartimax, equamax, promax, orthomax'], ...
-                rotationType);
+        switch params.rotationType
+            case "varimax"
+                factorLoadings = rotation.varimaxRotation( ...
+                    params.builtInNormalizeLoadings);
+            case "quartimax"
+                factorLoadings = rotation.quartimaxRotation( ...
+                    params.builtInNormalizeLoadings);
+            case "equamax"
+                factorLoadings = rotation.equamaxRotation(...
+                    params.builtInNormalizeLoadings);
+            case "promax"
+                factorLoadings = rotation.promaxRotation(...
+                    params.builtInNormalizeLoadings);
+            case "orthomax"
+                factorLoadings = rotation.orthomaxRotation(...
+                    params.builtInNormalizeLoadings, params.orthoGamma);
+            case "parsimax"
+                factorLoadings = rotation.parsimaxRotation(...
+                    params.builtInNormalizeLoadings);
+            case ""
+            otherwise
+                error( ...
+                    ['Invalid rotationType: %s\nValid types: ' ...
+                    'varimax, quartimax, equamax, promax, orthomax'], ...
+                    rotationType);
         end
     end
-
-    %% call visualizations after rotation (heatmap, bar chart)
-    if (params.visualizeBeforeAfterRotation == "after") || ( ...
-            params.visualizeBeforeAfterRotation == "both")
-        plot.visualizeFactorLoadingsHeat(factorLoadings, params.nFactorsToCompute, ...
-            params.rotationType, params.numVariablesToShow, ...
-            'after rotation');
-        plot.visualizeFactorLoadingsBar(factorLoadings, params.nFactorsToCompute, ...
-            params.rotationType, params.numVariablesToShow, ...
-            'after rotation');
+    
+    % Check if visualization is true
+    if params.visualize == true
+        %% call visualizations after rotation (heatmap, bar chart)
+        if (params.visualizeBeforeAfterRotation == "after") || ( ...
+                params.visualizeBeforeAfterRotation == "both")
+            plot.visualizeFactorLoadingsHeat(factorLoadings, ...
+                params.nFactorsToCompute, params.rotationType, ...
+                params.numVariablesToShow, 'after rotation');
+            plot.visualizeFactorLoadingsBar(factorLoadings, ...
+                params.nFactorsToCompute, params.rotationType, ...
+                params.numVariablesToShow, 'after rotation');
+        end
     end
 
     % Compute Factor returns
     estFactorRtns = mktRtns*factorLoadings;
     % Compute portfolio betas
-    portBetas = myPositions*factorLoadings;
+    portReturns = mktRtns*myPositions';
+    portBetas = regress(portReturns, estFactorRtns);
     % Adjusting returns for volatility Lookback
     rtnsAdjVolLookback = estFactorRtns(T - volLookback + 1:T, :);
     % Computing Vol over Lookback period

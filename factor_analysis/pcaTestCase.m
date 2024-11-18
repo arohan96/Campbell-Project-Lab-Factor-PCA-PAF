@@ -3,14 +3,14 @@ nDays = 10000;
 nMkts = 1000;
 nTrueFactors = 4;
 drift = 0.0001;
-maxSecondFactorSize = 10;
-nFactorsToCompute = 6;
+maxSecondFactorSize = 6;
+nFactorsToCompute = 4;
 idioVolScaler = 0.5;
 seedVal = -1;       % -1 => choose a new seed value
 modelType = 'PAF';
-factorConstructionLookback = 10000;
-volLookback = 10000;
-tolerance=1e-3;
+factorConstructionLookback = 2000;
+volLookback = 2000;
+tolerance=1e-8;
 iterations=100;
 kaiserNormalizeLoadings = false;   % true or false (use kaiser normalization
 % for loadings?)
@@ -26,6 +26,8 @@ builtInNormalizeLoadings = false;   % true or false (use built-in
 visualizeBeforeAfterRotation = 'before';   % '', before, after, both 
 % ('' = none)
 numVariablesToShow = 15;   % how many variables to show in visualizations
+% Wether to visualize eigenvalues and communalities
+visualize = true;
 
 
 %% setup
@@ -86,6 +88,7 @@ params.builtInNormalizeLoadings = builtInNormalizeLoadings;
 params.visualizeBeforeAfterRotation = visualizeBeforeAfterRotation;
 params.orthoGamma = orthoGamma;
 params.numVariablesToShow = numVariablesToShow;
+params.visualize = visualize;
 
 [estFactorRtns, portBetas, factorVols] = factorDecomposition( mktRtns, ...
     myPositions, params );

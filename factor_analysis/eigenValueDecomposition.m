@@ -60,8 +60,11 @@ classdef eigenValueDecomposition
         %   vectorvcorresponding to an eigenvalue. Columns are ordered in 
         %   order of decreasing eigenvalue
         %   communalities: Final communalities amongst factors
-        
-            u_curr = 1 - 1 ./ diag(inv(obj.corrMatrix));
+            
+            corr_size = size(obj.corrMatrix);
+            % Set initial communalities as zero
+            u_curr = zeros(1, corr_size(1));
+            u_curr = u_curr';
             % Iteratively applying SVD to reduced correlation matrix until 
             % the max of absolute difference between subsequent 
             % communalities is less than the tolerance level
@@ -70,10 +73,12 @@ classdef eigenValueDecomposition
             while max(comm_diff) > tolerance && iteration <= iterations
                 iteration = iteration + 1;
                 u_prev = u_curr;
-                % Reduced correlation/covariance matrix
+                % Reduced correlation matrix
                 reducedMatrix = obj.corrMatrix;
-                reducedMatrix(1:size(obj.corrMatrix, 1) + 1:end) = u_prev;
-                % Eigen decomposition
+                n = size(obj.corrMatrix, 1);
+                diagonal_indices = sub2ind([n, n], 1:n, 1:n);
+                reducedMatrix(diagonal_indices) = u_prev;
+                % Eigen value decomposition
                 [eigenVectors, eigenValues] = eig(reducedMatrix);
                 eigenValues = diag(eigenValues);
                 % Sorting in order of decreasing eigenvalues
@@ -88,7 +93,7 @@ classdef eigenValueDecomposition
                 u_curr = sum(eigenVectors.^2, 2);
                 comm_diff = abs(u_curr - u_prev);
             end
-        
+            
             communalities = u_curr;
         end
     end
