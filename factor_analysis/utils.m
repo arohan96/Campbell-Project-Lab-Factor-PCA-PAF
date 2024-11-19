@@ -45,7 +45,7 @@ classdef utils
                 params.nDays = nDays;
                 [factorLoadings, factorRtns, beta, vol] = factorDecomposition( ...
                     mktRet, myPositions(iii, :), params);
-                portBetas = [portBetas; beta];
+                portBetas = [portBetas; beta'];
                 portVols = [portVols; vol];
                 params.prevLoadings = factorLoadings;
             end
