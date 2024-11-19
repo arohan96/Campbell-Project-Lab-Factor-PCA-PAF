@@ -90,7 +90,7 @@ params.orthoGamma = orthoGamma;
 params.numVariablesToShow = numVariablesToShow;
 params.visualize = visualize;
 
-[estFactorRtns, portBetas, factorVols] = factorDecomposition( mktRtns, ...
+[~, estFactorRtns, portBetas, factorVols] = factorDecomposition( mktRtns, ...
     myPositions, params );
 %% checks
 % portfolio betas
