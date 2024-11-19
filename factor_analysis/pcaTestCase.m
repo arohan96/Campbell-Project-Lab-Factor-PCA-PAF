@@ -124,3 +124,4 @@ for iii = 1:4
     subplot(2, 2, iii);
     scatter(factorXcmp(:, 1, iii), factorXcmp(:, 2, iii))
 end
+

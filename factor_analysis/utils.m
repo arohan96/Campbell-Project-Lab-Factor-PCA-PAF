@@ -31,22 +31,33 @@ classdef utils
             %   indicates the historical volatility of each factor through the 
             %   given vol lookback period.
         
+            % Get total history of data
             T = size(mktRtns);
             T = T(1);
+            % Set lookback for rolling computations
             rollingLookback = size(myPositions);
             rollingLookback = rollingLookback(1);
+            % Initialise empty matrices for Betas, Vols, and Returns
             portBetas = [];
             portVols = [];
-        
+            factorRtns = [];
+            
+            % Iterate through rolling window
             for iii = 1:rollingLookback
+                % Trim market returns
                 mktRet = mktRtns(1:T-rollingLookback+iii-1, :);
+                % Adjust parameters
                 nDays = size(mktRet);
                 nDays = nDays(1);
                 params.nDays = nDays;
-                [factorLoadings, factorRtns, beta, vol] = factorDecomposition( ...
+                % Run factor decomposition
+                [factorLoadings, factorRet, beta, vol] = factorDecomposition( ...
                     mktRet, myPositions(iii, :), params);
+                % Append results to corresponding matrices
                 portBetas = [portBetas; beta'];
                 portVols = [portVols; vol];
+                factorRtns = [factorRtns; factorRet(end, :)];
+                % Update parameters to include previous factor loadings
                 params.prevLoadings = factorLoadings;
             end
         end
