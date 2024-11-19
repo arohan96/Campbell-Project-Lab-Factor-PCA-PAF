@@ -39,9 +39,12 @@ classdef utils
             portVols = [];
         
             for iii = 1:rollingLookback
+                mktRet = mktRtns(1:T-rollingLookback+iii-1, :);
+                nDays = size(mktRet);
+                nDays = nDays(1);
+                params.nDays = nDays;
                 [factorLoadings, factorRtns, beta, vol] = factorDecomposition( ...
-                    mktRtns(1:T-rollingLookback+iii, :), ...
-                    myPositions(iii, :), params);
+                    mktRet, myPositions(iii, :), params);
                 portBetas = [portBetas; beta];
                 portVols = [portVols; vol];
                 params.prevLoadings = factorLoadings;
@@ -84,5 +87,27 @@ classdef utils
             % Convert to degrees
             Theta = rad2deg(Theta);
         end
+
+        function cols_in_range = findColumnsInRange(obj, matrix, lower_bound, upper_bound)
+            % findColumnsInRange finds columns where any value is within a specified range.
+            %
+            % Inputs:
+            %   matrix       - The input matrix.
+            %   lower_bound  - The lower bound of the range (e.g., 170).
+            %   upper_bound  - The upper bound of the range (e.g., 190).
+            %
+            % Output:
+            %   cols_in_range - A vector containing the indices of the columns that meet the condition.
+            
+            % Create a logical matrix where elements within the range are true
+            within_range = matrix >= lower_bound & matrix <= upper_bound;
+            
+            % Check if any element in each column is within the range
+            cols_logical = any(within_range, 1);
+            
+            % Get the indices of columns that satisfy the condition
+            cols_in_range = find(cols_logical);
+        end
+
     end
 end

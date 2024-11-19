@@ -133,7 +133,7 @@ function [factorLoadings, estFactorRtns, portBetas, factorVols] = factorDecompos
         angles = factorUtils.computeAngleMatrix(params.prevLoadings, ...
             factorLoadings);
         % Find all angles close to 180 degrees
-        eigenVecIndices = findColumnsInRange(angles, 170, 190);
+        eigenVecIndices = factorUtils.findColumnsInRange(angles, 170, 190);
         % Multiplying corresponding factor loadings with -1
         factorLoadings(:, eigenVecIndices) = -1*factorLoadings( ...
             :, eigenVecIndices);
