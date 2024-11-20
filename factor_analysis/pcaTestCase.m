@@ -141,14 +141,13 @@ params.visualize = false;
 % normalized factor returns
 estNormFactorRtns = bsxfun(@rdivide, estFactorRtns, factorVols);
 trueNormFactorRtns = bsxfun(@rdivide, factorRtns, nanstd(factorRtns));
-size(trueNormFactorRtns(end-rollingLookback:end, :))
 % Plotting rolling returns
 figure();
 for iii = 1:4
     subplot(2, 2, iii);
     plot(estNormFactorRtns(:, iii), 'b', 'LineWidth', 1.5);
     hold on
-    plot(trueNormFactorRtns(end-rollingLookback:end, ...
+    plot(trueNormFactorRtns(end - rollingLookback + 1:end, ...
         iii), 'r', 'LineWidth', 1.5);
     hold off
     legend('Estimated Factor Returns', 'Actual Factor Returns')
