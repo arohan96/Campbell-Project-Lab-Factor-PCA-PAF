@@ -10,10 +10,10 @@ seedVal = -1;       % -1 => choose a new seed value
 modelType = 'PAF';
 factorConstructionLookback = 2000;
 volLookback = 2000;
-tolerance=1e-8;
+tolerance=1e-3;
 iterations=100;
-kaiserNormalizeLoadings = false;   % true or false (use kaiser normalization
-% for loadings?)
+kaiserNormalizeLoadings = true;   % true or false (use kaiser 
+% normalization for loadings?)
 rotationType = '';   % '', varimax, quartimax, promax, equamax, 
 % orthomax ('' = no rotation)
 orthoGamma = 0.35;   % (0 < orthoGamma < 1) only used when 
@@ -73,7 +73,7 @@ myBetas(:, 2:end) = randn(nMkts, nTrueFactors - 1); % some positive, some
 mktRtns = factorRtns * myBetas' + idioRtns;
 
 
-%% run PCA to get factors and portfolio betas
+%% run factorDecomposition to get factors and portfolio betas
 params.nFactorsToCompute = nFactorsToCompute;
 params.modelType = modelType;
 params.nDays = nDays;
@@ -125,3 +125,31 @@ for iii = 1:4
     scatter(factorXcmp(:, 1, iii), factorXcmp(:, 2, iii))
 end
 
+%% Testing Rolling Implementation
+rollingLookback = 100;
+myPositions = h_deMean(randn(rollingLookback, nMkts), 2);
+
+ut = utils;
+
+% Setting visualization to False so we don't get visualizations for each
+% rolling iteration
+params.visualize = false;
+
+[estFactorRtns, portBetas, factorVols] = ut.rolling(mktRtns, ...
+    myPositions, params);
+
+% normalized factor returns
+estNormFactorRtns = bsxfun(@rdivide, estFactorRtns, factorVols);
+trueNormFactorRtns = bsxfun(@rdivide, factorRtns, nanstd(factorRtns));
+size(trueNormFactorRtns(end-rollingLookback:end, :))
+% Plotting rolling returns
+figure();
+for iii = 1:4
+    subplot(2, 2, iii);
+    plot(estNormFactorRtns(:, iii), 'b', 'LineWidth', 1.5);
+    hold on
+    plot(trueNormFactorRtns(end-rollingLookback:end, ...
+        iii), 'r', 'LineWidth', 1.5);
+    hold off
+    legend('Estimated Factor Returns', 'Actual Factor Returns')
+end
