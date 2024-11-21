@@ -10,9 +10,9 @@ seedVal = -1;       % -1 => choose a new seed value
 modelType = 'PAF';
 factorConstructionLookback = 2000;
 volLookback = 2000;
-tolerance=1e-3;
+tolerance=1e-8;
 iterations=100;
-kaiserNormalizeLoadings = false;   % true or false (use kaiser normalization
+kaiserNormalizeLoadings = true;   % true or false (use kaiser normalization
 % for loadings?)
 rotationType = '';   % '', varimax, quartimax, promax, equamax, 
 % orthomax ('' = no rotation)
