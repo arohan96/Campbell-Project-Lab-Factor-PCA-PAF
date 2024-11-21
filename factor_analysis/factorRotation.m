@@ -6,7 +6,8 @@ classdef factorRotation
 
     methods
 
-        function [normalizedLoadings] = kaiserNormalization(obj, eigenValues)
+        function [normalizedLoadings] = kaiserNormalization(obj, ...
+                eigenValues)
             % kaisernormalization: Scales the factor loadings by their a
             % ssociated eigenvalues to standardize the factors.
             % This is typically applied before rotating factor loadings 
@@ -133,8 +134,8 @@ classdef factorRotation
             %       rotatedLoadings - Promax rotated factor loadings
             
             % Use the built-in rotatefactors with 'promax' method
-            rotatedLoadings = rotatefactors(obj.factorLoadings, 'Method', ...
-                'promax', 'Normalize', builtInNormalizeLoadings);
+            rotatedLoadings = rotatefactors(obj.factorLoadings, ...
+                'Method', 'promax', 'Normalize', builtInNormalizeLoadings);
         end
 
         function [rotatedLoadings] = orthomaxRotation(obj, ...
