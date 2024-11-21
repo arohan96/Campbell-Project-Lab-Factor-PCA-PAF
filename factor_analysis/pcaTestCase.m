@@ -7,13 +7,13 @@ maxSecondFactorSize = 6;
 nFactorsToCompute = 4;
 idioVolScaler = 0.5;
 seedVal = -1;       % -1 => choose a new seed value
-modelType = 'PAF';
+modelType = 'PCA';
 factorConstructionLookback = 2000;
 volLookback = 2000;
 tolerance=1e-3;
 iterations=100;
-kaiserNormalizeLoadings = true;   % true or false (use kaiser 
-% normalization for loadings?)
+kaiserNormalizeLoadings = true;   % true or false (use kaiser normalization
+% for loadings?)
 rotationType = '';   % '', varimax, quartimax, promax, equamax, 
 % orthomax ('' = no rotation)
 orthoGamma = 0.35;   % (0 < orthoGamma < 1) only used when 

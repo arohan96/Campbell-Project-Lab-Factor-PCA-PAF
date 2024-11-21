@@ -6,41 +6,64 @@ classdef visualization
     end
     
     methods
-
-        function visualizeFactorLoadingsHeat(obj, k, rotationType, numVariablesToShow, beforeAfterRotation)
-            % higher magnitude = variable has greater positive relationship with that factor 
-            % Sort absolute value of factor loadings to determine most significant
+        
+        function visualizeFactorLoadings(obj, k, rotationType, ...
+                numVariablesToShow, beforeAfterRotation, type)
+            % higher magnitude = variable has greater positive relationship
+            % with that factor. Sort absolute value of factor loadings to 
+            % determine most significant
             [~, sortIdx] = sort(abs(obj.factorLoadings), 'descend');
             % Select top numVariablesToShow based on absolute loadings
-            selectedIdx = sortIdx(1:min(numVariablesToShow, size(obj.factorLoadings, 1)));
+            selectedIdx = sortIdx(1:min(numVariablesToShow, size( ...
+                obj.factorLoadings, 1)));
             subsetFactorLoadings = obj.factorLoadings(selectedIdx, :);
-            % Create a heatmap for the factor loadings
-            figure;
-            imagesc(subsetFactorLoadings(:, 1:min(k, size(subsetFactorLoadings, 2))))  % Adjusted for k and dimensions
-            colorbar;
-            title(['Factor Loadings Heatmap - ' rotationType ' - ' beforeAfterRotation]);
-            xlabel('Factors');
-            ylabel('Variables');
-            set(gca, 'YTick', 1:length(selectedIdx), 'YTickLabel', selectedIdx);
-            % Optional: Set X-tick labels for factors if needed
-            xticks(1:min(k, size(subsetFactorLoadings, 2)));
-            xticklabels(arrayfun(@(x) ['Factor ' num2str(x)], 1:min(k, size(subsetFactorLoadings, 2)), 'UniformOutput', false));
+            
+            if type == "heat"
+                obj.visualizeFactorLoadingsHeat(k, rotationType, ...
+                subsetFactorLoadings, selectedIdx, beforeAfterRotation)
+            elseif type == "bar"
+                obj.visualizeFactorLoadingsBar(k, rotationType, ...
+                subsetFactorLoadings, selectedIdx, beforeAfterRotation)
+            else
+                ME = MException( ...
+                    'Visualization type %s is not implemented', type);
+                throw(ME);
+            end
         end
 
-        function visualizeFactorLoadingsBar(obj, k, rotationType, numVariablesToShow, beforeAfterRotation)
-            % higher magnitude = variable has greater positive relationship with that factor 
-            % Sort absolute value of factor loadings to determine most significant
-            [~, sortIdx] = sort(abs(obj.factorLoadings), 'descend');
-            % Select top numVariablesToShow based on absolute loadings
-            selectedIdx = sortIdx(1:min(numVariablesToShow, size(obj.factorLoadings, 1)));
-            subsetFactorLoadings = obj.factorLoadings(selectedIdx, :);
+
+        function visualizeFactorLoadingsHeat(obj, k, rotationType, ...
+                subsetFactorLoadings, selectedIdx, beforeAfterRotation)
+            % Create a heatmap for the factor loadings
+            figure;
+            imagesc(subsetFactorLoadings(:, 1:min(k, ...
+                size(subsetFactorLoadings, 2))))  % Adjusted for k and 
+            % dimensions
+            colorbar;
+            title(['Factor Loadings Heatmap - ' rotationType ' - ' ...
+                beforeAfterRotation]);
+            xlabel('Factors');
+            ylabel('Variables');
+            set(gca, 'YTick', 1:length(selectedIdx), 'YTickLabel', ...
+                selectedIdx);
+            % Optional: Set X-tick labels for factors if needed
+            xticks(1:min(k, size(subsetFactorLoadings, 2)));
+            xticklabels(arrayfun(@(x) ['Factor ' num2str(x)], 1:min(k, ...
+                size(subsetFactorLoadings, 2)), 'UniformOutput', false));
+        end
+
+        function visualizeFactorLoadingsBar(obj, k, rotationType, ...
+                subsetFactorLoadings, selectedIdx, beforeAfterRotation)
             % Bar plot for the first few factors
             figure;
-            bar(subsetFactorLoadings(:, 1:min(k, size(subsetFactorLoadings, 2))), 'grouped');
-            title(['Factor Loadings Bar Chart - ' rotationType ' - ' beforeAfterRotation]);
+            bar(subsetFactorLoadings(:, 1:min(k, size( ...
+                subsetFactorLoadings, 2))), 'grouped');
+            title(['Factor Loadings Bar Chart - ' rotationType ' - ' ...
+                beforeAfterRotation]);
             xlabel('Variables');
             ylabel('Loadings');
-            legend(arrayfun(@(x) ['Factor ' num2str(x)], 1:min(k, size(subsetFactorLoadings, 2)), 'UniformOutput', false));
+            legend(arrayfun(@(x) ['Factor ' num2str(x)], 1:min(k, ...
+                size(subsetFactorLoadings, 2)), 'UniformOutput', false));
         end
         
         function plotEigenValues(obj)
