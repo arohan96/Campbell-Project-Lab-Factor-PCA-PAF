@@ -33,25 +33,21 @@ classdef utils
             %   (historical). indicates the historical volatility of each 
             %   factor through the given vol lookback period.
         
-            % Get total history of data
-            T = size(mktRtns);
-            T = T(1);
+            
             % Set lookback for rolling computations
-            rollingLookback = size(myPositions);
-            rollingLookback = rollingLookback(1);
+            windowSize = params.factorConstructionLookback;
+            totalDays = params.nDays;
+            rollingDays = totalDays - windowSize;
+            params.nDays = windowSize;
             % Initialise empty matrices for Betas, Vols, and Returns
             portBetas = [];
             portVols = [];
             factorRtns = [];
             
             % Iterate through rolling window
-            for iii = 1:rollingLookback
+            for iii = 1:rollingDays
                 % Trim market returns
-                mktRet = mktRtns(1:T-rollingLookback+iii-1, :);
-                % Adjust parameters
-                nDays = size(mktRet);
-                nDays = nDays(1);
-                params.nDays = nDays;
+                mktRet = mktRtns(1 + iii:windowSize + iii, :);
                 % Run factor decomposition
                 [factorLoadings, factorRet, beta, vol] = ( ...
                     factorDecomposition( ...

@@ -1,5 +1,5 @@
 %% params
-nDays = 10000;
+nDays = 500;
 nMkts = 1000;
 nTrueFactors = 4;
 drift = 0.0001;
@@ -7,9 +7,9 @@ maxSecondFactorSize = 6;
 nFactorsToCompute = 4;
 idioVolScaler = 0.5;
 seedVal = -1;       % -1 => choose a new seed value
-modelType = 'PCA';
-factorConstructionLookback = 2000;
-volLookback = 2000;
+modelType = 'PAF';
+factorConstructionLookback = 60;
+volLookback = 60;
 tolerance=1e-3;
 iterations=100;
 kaiserNormalizeLoadings = true;   % true or false (use kaiser normalization
@@ -126,8 +126,8 @@ for iii = 1:4
 end
 
 %% Testing Rolling Implementation
-rollingLookback = 100;
-myPositions = h_deMean(randn(rollingLookback, nMkts), 2);
+rollingDays = params.nDays - params.factorConstructionLookback;
+myPositions = h_deMean(randn(rollingDays, nMkts), 2);
 
 ut = utils;
 
@@ -147,7 +147,7 @@ for iii = 1:4
     subplot(2, 2, iii);
     plot(estNormFactorRtns(:, iii), 'b', 'LineWidth', 1.5);
     hold on
-    plot(trueNormFactorRtns(end - rollingLookback + 1:end, ...
+    plot(trueNormFactorRtns(end - rollingDays + 1:end, ...
         iii), 'r', 'LineWidth', 1.5);
     hold off
     legend('Estimated Factor Returns', 'Actual Factor Returns')
