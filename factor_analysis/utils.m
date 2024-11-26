@@ -5,8 +5,8 @@ classdef utils
 
     methods
         
-        function [factorRtns, portBetas, portVols] = rolling(obj, ...
-                mktRtns, myPositions, params)
+        function [factorRtns, portBetas, factorVols, factorLoadings] = rolling( ...
+                obj, mktRtns, myPositions, params)
             %% rolling
             % Takes as input a market returns matrix and a portfolio 
             % positions vector and returns a matrix of factor returns, 
@@ -14,51 +14,58 @@ classdef utils
             % computed using either Principal Component Analysis (PCA) or 
             % Principal Axis Factoring (PAF)
             %% Inputs:
-            %   mktRtns: Txm matrix of market returns where T is the number
-            %   of periods for which we have market returns and m is the 
-            %   total number of market factors.
-            %   myPositions: T'xm matrix of Portfolio positions, indicating
+            %   mktRtns: Txm matrix of market returns where T is the
+            %   rolling window size
+            %   myPositions: Txm matrix of Portfolio positions, indicating
             %   the portfolio's position in each of the m market factors 
-            %   through time. T' refers the time-frame for which we need to
-            %   run a rolling window.
+            %   through time.
             %   params: Model Parameters. Refer to factorDecomposition.m 
             %   for more details on params.
             %% Outputs:
-            %   factorRtns: a Txk matrix of factor returns where T is the 
-            %   total number of time periods and k is the number of factor 
-            %   loadings.
-            %   portBetas: A T'xk matrix of portfolio betas indicating the
+            %   factorRtns: a TxkxR matrix of factor returns where k is the 
+            %   number of factor loadings and R is the number of days in
+            %   our sample. For each day, we get a Txk matrix of factor
+            %   returns.
+            %   portBetas: A Txk matrix of portfolio betas indicating the
             %   portfolio's exposure to each of the k factors.
-            %   factorVols: A T'xk matrix of factor volatilities 
+            %   factorVols: A Txk matrix of factor volatilities 
             %   (historical). indicates the historical volatility of each 
             %   factor through the given vol lookback period.
+            %   factorLoadings: An mxkxR matrix of factor loadings such
+            %   that we have a matrix of factor loadings for each day the
+            %   rolling script is run.
         
             
-            % Set lookback for rolling computations
+            % Set window size as the factorConstructionLookback
             windowSize = params.factorConstructionLookback;
+            % Number of days to run the script for is total days minus
+            % window size
             totalDays = params.nDays;
             rollingDays = totalDays - windowSize;
+            % Set nDays as window size
             params.nDays = windowSize;
             % Initialise empty matrices for Betas, Vols, and Returns
             portBetas = [];
-            portVols = [];
+            factorVols = [];
             factorRtns = [];
+            factorLoadings = [];
             
             % Iterate through rolling window
             for iii = 1:rollingDays
                 % Trim market returns
                 mktRet = mktRtns(1 + iii:windowSize + iii, :);
                 % Run factor decomposition
-                [factorLoadings, factorRet, beta, vol] = ( ...
+                [loadings, factorRet, beta, vol] = ( ...
                     factorDecomposition( ...
                     mktRet, myPositions(iii, :), params) ...
                     );
                 % Append results to corresponding matrices
                 portBetas = [portBetas; beta'];
-                portVols = [portVols; vol];
-                factorRtns = [factorRtns; factorRet(end, :)];
+                factorVols = [factorVols; vol];
+                factorRtns(:, :, iii) = factorRet;
+                factorLoadings(:, :, iii) = loadings;
                 % Update parameters to include previous factor loadings
-                params.prevLoadings = factorLoadings;
+                params.prevLoadings = loadings;
             end
         end
         
