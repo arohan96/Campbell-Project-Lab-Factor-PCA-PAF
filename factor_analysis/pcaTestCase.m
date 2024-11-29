@@ -29,7 +29,6 @@ numVariablesToShow = 15;   % how many variables to show in visualizations
 % Wether to visualize eigenvalues and communalities
 visualize = true;
 
-
 %% setup
 clc
 
@@ -90,8 +89,8 @@ params.orthoGamma = orthoGamma;
 params.numVariablesToShow = numVariablesToShow;
 params.visualize = visualize;
 
-[~, estFactorRtns, portBetas, factorVols] = factorDecomposition( mktRtns, ...
-    myPositions, params );
+[~, estFactorRtns, portBetas, factorVols] = factorDecomposition( ...
+    mktRtns, myPositions, params );
 %% checks
 % portfolio betas
 estPortVolBetas = abs(portBetas) .* factorVols;
