@@ -126,6 +126,16 @@ function [factorLoadings, estFactorRtns, portBetas, factorVols] = factorDecompos
     % Computing the first 'k' factors
     factorLoadings = eigenVectors(:, 1:k);
 
+    % Setting up factor rotation object
+    rotation = factorRotation;
+    rotation.factorLoadings = factorLoadings;
+
+    %% kaiser normalization (optional, can use by itself or to prepare 
+    % factors for rotation)
+    if params.kaiserNormalizeLoadings == true
+        factorLoadings = rotation.kaiserNormalization(eigenValues(1:k));
+    end
+
     % Check for sign indeterminancy in Factor Loadings
     factorUtils = utils;
     if isfield(params, 'prevLoadings')
@@ -164,16 +174,6 @@ function [factorLoadings, estFactorRtns, portBetas, factorVols] = factorDecompos
                 params.rotationType, params.numVariablesToShow, ...
                 'before rotation', 'bar');
         end
-    end
-    
-    % Setting up factor rotation object
-    rotation = factorRotation;
-    rotation.factorLoadings = factorLoadings;
-    
-    %% kaiser normalization (optional, can use by itself or to prepare 
-    % factors for rotation)
-    if params.kaiserNormalizeLoadings == true
-        factorLoadings = rotation.kaiserNormalization(eigenValues(1:k));
     end
 
     %% call factor loading rotation function (optional)

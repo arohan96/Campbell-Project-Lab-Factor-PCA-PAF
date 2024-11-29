@@ -1,5 +1,5 @@
 %% params
-nDays = 10000;
+nDays = 500;
 nMkts = 1000;
 nTrueFactors = 4;
 drift = 0.0001;
@@ -8,9 +8,9 @@ nFactorsToCompute = 4;
 idioVolScaler = 0.5;
 seedVal = -1;       % -1 => choose a new seed value
 modelType = 'PAF';
-factorConstructionLookback = 2000;
-volLookback = 2000;
-tolerance=1e-8;
+factorConstructionLookback = 60;
+volLookback = 60;
+tolerance=1e-3;
 iterations=100;
 kaiserNormalizeLoadings = true;   % true or false (use kaiser normalization
 % for loadings?)
@@ -28,7 +28,6 @@ visualizeBeforeAfterRotation = 'before';   % '', before, after, both
 numVariablesToShow = 15;   % how many variables to show in visualizations
 % Wether to visualize eigenvalues and communalities
 visualize = true;
-
 
 %% setup
 clc
@@ -73,7 +72,7 @@ myBetas(:, 2:end) = randn(nMkts, nTrueFactors - 1); % some positive, some
 mktRtns = factorRtns * myBetas' + idioRtns;
 
 
-%% run PCA to get factors and portfolio betas
+%% run factorDecomposition to get factors and portfolio betas
 params.nFactorsToCompute = nFactorsToCompute;
 params.modelType = modelType;
 params.nDays = nDays;
@@ -90,8 +89,8 @@ params.orthoGamma = orthoGamma;
 params.numVariablesToShow = numVariablesToShow;
 params.visualize = visualize;
 
-[~, estFactorRtns, portBetas, factorVols] = factorDecomposition( mktRtns, ...
-    myPositions, params );
+[~, estFactorRtns, portBetas, factorVols] = factorDecomposition( ...
+    mktRtns, myPositions, params );
 %% checks
 % portfolio betas
 estPortVolBetas = abs(portBetas) .* factorVols;
@@ -123,4 +122,36 @@ figure();
 for iii = 1:4
     subplot(2, 2, iii);
     scatter(factorXcmp(:, 1, iii), factorXcmp(:, 2, iii))
+end
+
+%% Testing Rolling Implementation
+% The factorConstructionLookback is used as the rolling window
+% Number of iterations to run is the total number of days minus the factor
+% construction lookback
+rollingDays = params.nDays - params.factorConstructionLookback;
+myPositions = h_deMean(randn(rollingDays, nMkts), 2);
+
+ut = utils;
+
+% Setting visualization to False so we don't get visualizations for each
+% rolling iteration
+params.visualize = false;
+
+[estFactorRtns, portBetas, factorVols, factorLoadings] = ut.rolling( ...
+    mktRtns, myPositions, params);
+
+% normalized factor returns
+estNormFactorRtns = bsxfun(@rdivide, estFactorRtns(:, :, end), ...
+    factorVols(end, :));
+trueNormFactorRtns = bsxfun(@rdivide, factorRtns, nanstd(factorRtns));
+% Plotting factor returns for the last iteration
+figure();
+for iii = 1:4
+    subplot(2, 2, iii);
+    plot(estNormFactorRtns(:, iii), 'b', 'LineWidth', 1.5);
+    hold on
+    plot(trueNormFactorRtns(end - factorConstructionLookback:end, ...
+        iii), 'r', 'LineWidth', 1.5);
+    hold off
+    legend('Estimated Factor Returns', 'Actual Factor Returns')
 end
