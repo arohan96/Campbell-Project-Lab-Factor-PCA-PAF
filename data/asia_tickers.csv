@@ -1,0 +1,1001 @@
+Ticker,Exchange,Sector,Industry
+360,AU,Information Technology,Software
+A2M,AU,Consumer Staples,Food Products
+ABC,AU,Materials,Construction Materials
+ADH,AU,Consumer Discretionary,Specialty Retail
+AGL,AU,Utilities,Multi-Utilities
+AKE,AU,Materials,Metals & Mining
+ALL,AU,Consumer Discretionary,"Hotels, Restaurants & Leisure"
+ALQ,AU,Industrials,Professional Services
+ALU,AU,Information Technology,Software
+AMC,AU,Materials,Containers & Packaging
+ANN,AU,Health Care,Health Care Equipment & Supplies
+APA,AU,Utilities,Gas Utilities
+APE,AU,Consumer Discretionary,Specialty Retail
+APX,AU,Information Technology,IT Services
+ARB,AU,Consumer Discretionary,Automobile Components
+ASB,AU,Industrials,Aerospace & Defense
+AWC,AU,Materials,Metals & Mining
+BGA,AU,Consumer Staples,Food Products
+BHP,AU,Materials,Metals & Mining
+BKW,AU,Materials,Construction Materials
+BLD,AU,Materials,Construction Materials
+BPT,AU,Energy,"Oil, Gas & Consumable Fuels"
+BRG,AU,Consumer Discretionary,Household Durables
+BSL,AU,Materials,Metals & Mining
+BXB,AU,Industrials,Commercial Services & Supplies
+CCP,AU,Financials,Consumer Finance
+CDA,AU,Information Technology,"Electronic Equipment, Instruments & Components"
+CGF,AU,Financials,Financial Services
+CHC,AU,Real Estate,Diversified REITs
+CIA,AU,Materials,Metals & Mining
+CLW,AU,Real Estate,Diversified REITs
+CMM,AU,Materials,Metals & Mining
+CNI,AU,Real Estate,Diversified REITs
+COH,AU,Health Care,Health Care Equipment & Supplies
+CQE,AU,Real Estate,Specialized REITs
+CSR,AU,Materials,Construction Materials
+CTD,AU,Consumer Discretionary,"Hotels, Restaurants & Leisure"
+CUV,AU,Health Care,Biotechnology
+DMP,AU,Consumer Discretionary,"Hotels, Restaurants & Leisure"
+DOW,AU,Industrials,Commercial Services & Supplies
+ELD,AU,Consumer Staples,Food Products
+EVN,AU,Materials,Metals & Mining
+FBU,AU,Industrials,Building Products
+FMG,AU,Materials,Metals & Mining
+FPH,AU,Health Care,Health Care Equipment & Supplies
+GMG,AU,Real Estate,Industrial REITs
+GOR,AU,Materials,Metals & Mining
+GOZ,AU,Real Estate,Diversified REITs
+GPT,AU,Real Estate,Diversified REITs
+HLS,AU,Health Care,Health Care Providers & Services
+HUB,AU,Financials,Capital Markets
+IEL,AU,Consumer Discretionary,Diversified Consumer Services
+IFL,AU,Financials,Capital Markets
+IGO,AU,Materials,Metals & Mining
+ILU,AU,Materials,Metals & Mining
+INA,AU,Real Estate,Residential REITs
+IRE,AU,Information Technology,Software
+JIN,AU,Consumer Discretionary,"Hotels, Restaurants & Leisure"
+LIC,AU,Real Estate,Real Estate Management & Development
+LLC,AU,Real Estate,Real Estate Management & Development
+LOV,AU,Consumer Discretionary,Specialty Retail
+LYC,AU,Materials,Metals & Mining
+MFG,AU,Financials,Capital Markets
+MIN,AU,Materials,Metals & Mining
+MMS,AU,Industrials,Professional Services
+MND,AU,Industrials,Construction & Engineering
+MP1,AU,Information Technology,IT Services
+NAN,AU,Health Care,Health Care Equipment & Supplies
+NCK,AU,Consumer Discretionary,Specialty Retail
+NCM,AU,Materials,Metals & Mining
+NEC,AU,Communication Services,Media
+NEU,AU,Health Care,Pharmaceuticals
+NST,AU,Materials,Metals & Mining
+NWL,AU,Financials,Capital Markets
+NWS,AU,Communication Services,Media
+NXT,AU,Information Technology,IT Services
+OBL,AU,Financials,Financial Services
+OML,AU,Communication Services,Media
+ORA,AU,Materials,Containers & Packaging
+PLS,AU,Materials,Metals & Mining
+PNI,AU,Financials,Capital Markets
+PNV,AU,Health Care,Health Care Equipment & Supplies
+PPT,AU,Financials,Capital Markets
+PWH,AU,Consumer Discretionary,Automobile Components
+QAN,AU,Industrials,Passenger Airlines
+REA,AU,Communication Services,Interactive Media & Services
+RHC,AU,Health Care,Health Care Providers & Services
+RIO,AU,Materials,Metals & Mining
+RMD,AU,Health Care,Health Care Equipment & Supplies
+RRL,AU,Materials,Metals & Mining
+RWC,AU,Industrials,Building Products
+S32,AU,Materials,Metals & Mining
+SEK,AU,Communication Services,Interactive Media & Services
+SFR,AU,Materials,Metals & Mining
+SGM,AU,Materials,Metals & Mining
+SGP,AU,Real Estate,Diversified REITs
+SGR,AU,Consumer Discretionary,"Hotels, Restaurants & Leisure"
+SUL,AU,Consumer Discretionary,Specialty Retail
+SVW,AU,Industrials,Trading Companies & Distributors
+TLX,AU,Health Care,Biotechnology
+TNE,AU,Information Technology,Software
+TPG,AU,Communication Services,Diversified Telecommunication Services
+TWE,AU,Consumer Staples,Beverages
+URW,AU,Real Estate,Retail REITs
+VCX,AU,Real Estate,Retail REITs
+VUK,AU,Financials,Banks
+WEB,AU,Consumer Discretionary,"Hotels, Restaurants & Leisure"
+WTC,AU,Information Technology,Software
+XRO,AU,Information Technology,Software
+1,HK,Industrials,Industrial Conglomerates
+2,HK,Utilities,Electric Utilities
+3,HK,Utilities,Gas Utilities
+4,HK,Real Estate,Real Estate Management & Development
+5,HK,Financials,Banks
+6,HK,Utilities,Electric Utilities
+11,HK,Financials,Banks
+12,HK,Real Estate,Real Estate Management & Development
+14,HK,Real Estate,Real Estate Management & Development
+16,HK,Real Estate,Real Estate Management & Development
+17,HK,Real Estate,Real Estate Management & Development
+19,HK,Real Estate,Real Estate Management & Development
+23,HK,Financials,Banks
+27,HK,Consumer Discretionary,"Hotels, Restaurants & Leisure"
+66,HK,Industrials,Ground Transportation
+83,HK,Real Estate,Real Estate Management & Development
+101,HK,Real Estate,Real Estate Management & Development
+135,HK,Utilities,Gas Utilities
+144,HK,Industrials,Transportation Infrastructure
+148,HK,Information Technology,"Electronic Equipment, Instruments & Components"
+152,HK,Industrials,Transportation Infrastructure
+168,HK,Consumer Staples,Beverages
+175,HK,Consumer Discretionary,Automobiles
+177,HK,Industrials,Transportation Infrastructure
+179,HK,Consumer Discretionary,Automobile Components
+200,HK,Consumer Discretionary,"Hotels, Restaurants & Leisure"
+220,HK,Consumer Staples,Food Products
+241,HK,Consumer Staples,Consumer Staples Distribution & Retail
+267,HK,Industrials,Industrial Conglomerates
+268,HK,Information Technology,Software
+270,HK,Utilities,Water Utilities
+285,HK,Information Technology,Communications Equipment
+291,HK,Consumer Staples,Beverages
+293,HK,Industrials,Passenger Airlines
+303,HK,Information Technology,Communications Equipment
+322,HK,Consumer Staples,Food Products
+341,HK,Consumer Discretionary,"Hotels, Restaurants & Leisure"
+345,HK,Consumer Staples,Food Products
+358,HK,Materials,Metals & Mining
+363,HK,Industrials,Industrial Conglomerates
+384,HK,Utilities,Gas Utilities
+388,HK,Financials,Capital Markets
+392,HK,Utilities,Gas Utilities
+440,HK,Financials,Banks
+520,HK,Consumer Discretionary,"Hotels, Restaurants & Leisure"
+522,HK,Information Technology,Semiconductors & Semiconductor Equipment
+548,HK,Industrials,Transportation Infrastructure
+551,HK,Consumer Discretionary,"Textiles, Apparel & Luxury Goods"
+586,HK,Industrials,Construction & Engineering
+631,HK,Industrials,Machinery
+636,HK,Industrials,Air Freight & Logistics
+659,HK,Industrials,Industrial Conglomerates
+669,HK,Industrials,Machinery
+683,HK,Real Estate,Real Estate Management & Development
+688,HK,Real Estate,Real Estate Management & Development
+696,HK,Consumer Discretionary,"Hotels, Restaurants & Leisure"
+700,HK,Communication Services,Interactive Media & Services
+763,HK,Information Technology,Communications Equipment
+777,HK,Communication Services,Entertainment
+780,HK,Consumer Discretionary,"Hotels, Restaurants & Leisure"
+823,HK,Real Estate,Retail REITs
+836,HK,Utilities,Independent Power & Renewable Electricity Producers
+853,HK,Health Care,Health Care Equipment & Supplies
+867,HK,Health Care,Pharmaceuticals
+868,HK,Industrials,Building Products
+874,HK,Health Care,Health Care Providers & Services
+881,HK,Consumer Discretionary,Specialty Retail
+883,HK,Energy,"Oil, Gas & Consumable Fuels"
+914,HK,Materials,Construction Materials
+916,HK,Utilities,Independent Power & Renewable Electricity Producers
+960,HK,Real Estate,Real Estate Management & Development
+966,HK,Financials,Insurance
+968,HK,Information Technology,Semiconductors & Semiconductor Equipment
+973,HK,Consumer Staples,Personal Care Products
+981,HK,Information Technology,Semiconductors & Semiconductor Equipment
+992,HK,Information Technology,"Technology Hardware, Storage & Peripherals"
+1038,HK,Utilities,Electric Utilities
+1044,HK,Consumer Staples,Personal Care Products
+1066,HK,Health Care,Health Care Equipment & Supplies
+1072,HK,Industrials,Electrical Equipment
+1088,HK,Energy,"Oil, Gas & Consumable Fuels"
+1093,HK,Health Care,Pharmaceuticals
+1099,HK,Health Care,Health Care Providers & Services
+1109,HK,Real Estate,Real Estate Management & Development
+1112,HK,Consumer Staples,Food Products
+1113,HK,Real Estate,Real Estate Management & Development
+1128,HK,Consumer Discretionary,"Hotels, Restaurants & Leisure"
+1171,HK,Energy,"Oil, Gas & Consumable Fuels"
+1193,HK,Utilities,Gas Utilities
+1211,HK,Consumer Discretionary,Automobiles
+1299,HK,Financials,Insurance
+1308,HK,Industrials,Marine Transportation
+1336,HK,Financials,Insurance
+1347,HK,Information Technology,Semiconductors & Semiconductor Equipment
+1368,HK,Consumer Discretionary,"Textiles, Apparel & Luxury Goods"
+1378,HK,Materials,Metals & Mining
+1513,HK,Health Care,Pharmaceuticals
+1530,HK,Health Care,Biotechnology
+1548,HK,Health Care,Life Sciences Tools & Services
+1579,HK,Consumer Staples,Food Products
+1585,HK,Consumer Discretionary,Automobiles
+1772,HK,Materials,Chemicals
+1776,HK,Financials,Capital Markets
+1787,HK,Materials,Metals & Mining
+1801,HK,Health Care,Biotechnology
+1810,HK,Information Technology,"Technology Hardware, Storage & Peripherals"
+1818,HK,Materials,Metals & Mining
+1888,HK,Information Technology,"Electronic Equipment, Instruments & Components"
+1896,HK,Communication Services,Entertainment
+1910,HK,Consumer Discretionary,"Textiles, Apparel & Luxury Goods"
+1919,HK,Industrials,Marine Transportation
+1928,HK,Consumer Discretionary,"Hotels, Restaurants & Leisure"
+1929,HK,Consumer Discretionary,Specialty Retail
+1997,HK,Real Estate,Real Estate Management & Development
+1999,HK,Consumer Discretionary,Household Durables
+2018,HK,Information Technology,"Electronic Equipment, Instruments & Components"
+2020,HK,Consumer Discretionary,"Textiles, Apparel & Luxury Goods"
+2099,HK,Materials,Metals & Mining
+2128,HK,Industrials,Building Products
+2196,HK,Health Care,Pharmaceuticals
+2202,HK,Real Estate,Real Estate Management & Development
+2208,HK,Industrials,Electrical Equipment
+2269,HK,Health Care,Life Sciences Tools & Services
+2282,HK,Consumer Discretionary,"Hotels, Restaurants & Leisure"
+2313,HK,Consumer Discretionary,"Textiles, Apparel & Luxury Goods"
+2318,HK,Financials,Insurance
+2319,HK,Consumer Staples,Food Products
+2328,HK,Financials,Insurance
+2331,HK,Consumer Discretionary,"Textiles, Apparel & Luxury Goods"
+2333,HK,Consumer Discretionary,Automobiles
+2338,HK,Industrials,Machinery
+2359,HK,Health Care,Life Sciences Tools & Services
+2378,HK,Financials,Insurance
+2382,HK,Information Technology,"Electronic Equipment, Instruments & Components"
+2388,HK,Financials,Banks
+2588,HK,Industrials,Trading Companies & Distributors
+2601,HK,Financials,Insurance
+2607,HK,Health Care,Health Care Providers & Services
+2611,HK,Financials,Capital Markets
+2628,HK,Financials,Insurance
+2688,HK,Utilities,Gas Utilities
+2883,HK,Energy,Energy Equipment & Services
+2888,HK,Financials,Banks
+2899,HK,Materials,Metals & Mining
+3311,HK,Industrials,Construction & Engineering
+3396,HK,Information Technology,"Technology Hardware, Storage & Peripherals"
+3606,HK,Consumer Discretionary,Automobile Components
+3690,HK,Consumer Discretionary,"Hotels, Restaurants & Leisure"
+3808,HK,Industrials,Machinery
+3888,HK,Communication Services,Entertainment
+3898,HK,Industrials,Machinery
+3900,HK,Real Estate,Real Estate Management & Development
+3908,HK,Financials,Capital Markets
+3968,HK,Financials,Banks
+6030,HK,Financials,Capital Markets
+6060,HK,Financials,Insurance
+6066,HK,Financials,Capital Markets
+6098,HK,Real Estate,Real Estate Management & Development
+6160,HK,Health Care,Biotechnology
+6862,HK,Consumer Discretionary,"Hotels, Restaurants & Leisure"
+6869,HK,Information Technology,Communications Equipment
+6886,HK,Financials,Capital Markets
+1332,JP,Consumer Staples,Food Products
+1333,JP,Consumer Staples,Food Products
+1407,JP,Utilities,Independent Power & Renewable Electricity Producers
+1414,JP,Industrials,Construction & Engineering
+1417,JP,Industrials,Construction & Engineering
+1419,JP,Consumer Discretionary,Household Durables
+1515,JP,Materials,Metals & Mining
+1518,JP,Industrials,Trading Companies & Distributors
+1720,JP,Industrials,Construction & Engineering
+1801,JP,Industrials,Construction & Engineering
+1803,JP,Industrials,Construction & Engineering
+1805,JP,Industrials,Construction & Engineering
+1808,JP,Consumer Discretionary,Household Durables
+1812,JP,Industrials,Construction & Engineering
+1821,JP,Industrials,Construction & Engineering
+1822,JP,Industrials,Construction & Engineering
+1835,JP,Industrials,Construction & Engineering
+1860,JP,Industrials,Construction & Engineering
+1861,JP,Industrials,Construction & Engineering
+1887,JP,Industrials,Construction & Engineering
+1893,JP,Industrials,Construction & Engineering
+1911,JP,Consumer Discretionary,Household Durables
+1925,JP,Real Estate,Real Estate Management & Development
+1926,JP,Industrials,Construction & Engineering
+1942,JP,Industrials,Construction & Engineering
+1944,JP,Industrials,Construction & Engineering
+1950,JP,Industrials,Construction & Engineering
+1951,JP,Industrials,Construction & Engineering
+1959,JP,Industrials,Construction & Engineering
+1963,JP,Industrials,Construction & Engineering
+1969,JP,Industrials,Building Products
+2001,JP,Consumer Staples,Food Products
+2002,JP,Consumer Staples,Food Products
+2120,JP,Communication Services,Interactive Media & Services
+2127,JP,Industrials,Professional Services
+2130,JP,Communication Services,Media
+2146,JP,Industrials,Professional Services
+2148,JP,Communication Services,Interactive Media & Services
+2157,JP,Consumer Discretionary,"Hotels, Restaurants & Leisure"
+2160,JP,Health Care,Biotechnology
+2168,JP,Industrials,Professional Services
+2175,JP,Industrials,Professional Services
+2181,JP,Industrials,Professional Services
+2201,JP,Consumer Staples,Food Products
+2212,JP,Consumer Staples,Food Products
+2220,JP,Consumer Staples,Food Products
+2222,JP,Consumer Staples,Food Products
+2229,JP,Consumer Staples,Food Products
+2264,JP,Consumer Staples,Food Products
+2267,JP,Consumer Staples,Food Products
+2269,JP,Consumer Staples,Food Products
+2270,JP,Consumer Staples,Food Products
+2281,JP,Consumer Staples,Food Products
+2282,JP,Consumer Staples,Food Products
+2292,JP,Consumer Staples,Food Products
+2296,JP,Consumer Staples,Food Products
+2307,JP,Information Technology,IT Services
+2326,JP,Information Technology,Software
+2327,JP,Information Technology,IT Services
+2331,JP,Industrials,Commercial Services & Supplies
+2371,JP,Communication Services,Interactive Media & Services
+2379,JP,Industrials,Professional Services
+2384,JP,Industrials,Air Freight & Logistics
+2389,JP,Communication Services,Media
+2412,JP,Industrials,Professional Services
+2413,JP,Health Care,Health Care Technology
+2432,JP,Communication Services,Entertainment
+2433,JP,Communication Services,Media
+2440,JP,Communication Services,Interactive Media & Services
+2453,JP,Consumer Discretionary,Diversified Consumer Services
+2471,JP,Industrials,Professional Services
+2489,JP,Communication Services,Media
+2492,JP,Industrials,Professional Services
+2501,JP,Consumer Staples,Beverages
+2503,JP,Consumer Staples,Beverages
+2531,JP,Consumer Staples,Beverages
+2579,JP,Consumer Staples,Beverages
+2590,JP,Consumer Staples,Food Products
+2593,JP,Consumer Staples,Beverages
+2602,JP,Consumer Staples,Food Products
+2607,JP,Consumer Staples,Food Products
+2659,JP,Consumer Staples,Consumer Staples Distribution & Retail
+2670,JP,Consumer Discretionary,Specialty Retail
+2681,JP,Consumer Discretionary,Specialty Retail
+2726,JP,Consumer Discretionary,Specialty Retail
+2730,JP,Consumer Discretionary,Specialty Retail
+2733,JP,Consumer Discretionary,Distributors
+2760,JP,Information Technology,"Electronic Equipment, Instruments & Components"
+2767,JP,Consumer Discretionary,Leisure Products
+2780,JP,Consumer Discretionary,Specialty Retail
+2784,JP,Health Care,Health Care Providers & Services
+2792,JP,Consumer Discretionary,Specialty Retail
+2810,JP,Consumer Staples,Food Products
+2811,JP,Consumer Staples,Food Products
+2871,JP,Consumer Staples,Food Products
+2874,JP,Consumer Staples,Consumer Staples Distribution & Retail
+2897,JP,Consumer Staples,Food Products
+2918,JP,Consumer Staples,Food Products
+2929,JP,Health Care,Biotechnology
+2931,JP,Consumer Staples,Personal Care Products
+2975,JP,Real Estate,Real Estate Management & Development
+3028,JP,Consumer Discretionary,Specialty Retail
+3031,JP,Consumer Discretionary,Broadline Retail
+3034,JP,Consumer Staples,Consumer Staples Distribution & Retail
+3038,JP,Consumer Staples,Consumer Staples Distribution & Retail
+3040,JP,Information Technology,Software
+3046,JP,Consumer Discretionary,Specialty Retail
+3048,JP,Consumer Discretionary,Specialty Retail
+3050,JP,Consumer Discretionary,Specialty Retail
+3064,JP,Industrials,Trading Companies & Distributors
+3087,JP,Consumer Discretionary,"Hotels, Restaurants & Leisure"
+3088,JP,Consumer Staples,Consumer Staples Distribution & Retail
+3092,JP,Consumer Discretionary,Specialty Retail
+3093,JP,Consumer Discretionary,Broadline Retail
+3097,JP,Consumer Discretionary,"Hotels, Restaurants & Leisure"
+3099,JP,Consumer Discretionary,Broadline Retail
+3107,JP,Information Technology,"Electronic Equipment, Instruments & Components"
+3110,JP,Industrials,Building Products
+3132,JP,Information Technology,"Electronic Equipment, Instruments & Components"
+3150,JP,Industrials,Commercial Services & Supplies
+3156,JP,Information Technology,"Electronic Equipment, Instruments & Components"
+3182,JP,Consumer Staples,Consumer Staples Distribution & Retail
+3186,JP,Consumer Discretionary,Specialty Retail
+3191,JP,Consumer Discretionary,Specialty Retail
+3193,JP,Consumer Discretionary,"Hotels, Restaurants & Leisure"
+3197,JP,Consumer Discretionary,"Hotels, Restaurants & Leisure"
+3201,JP,Consumer Discretionary,"Textiles, Apparel & Luxury Goods"
+3222,JP,Consumer Staples,Consumer Staples Distribution & Retail
+3254,JP,Consumer Discretionary,Household Durables
+3281,JP,Real Estate,Industrial REITs
+3282,JP,Real Estate,Residential REITs
+3283,JP,Real Estate,Industrial REITs
+3288,JP,Consumer Discretionary,Household Durables
+3291,JP,Consumer Discretionary,Household Durables
+3299,JP,Real Estate,Real Estate Management & Development
+3328,JP,Consumer Discretionary,Broadline Retail
+3333,JP,Consumer Discretionary,Specialty Retail
+3349,JP,Consumer Staples,Consumer Staples Distribution & Retail
+3360,JP,Health Care,Health Care Providers & Services
+3387,JP,Consumer Discretionary,"Hotels, Restaurants & Leisure"
+3391,JP,Consumer Staples,Consumer Staples Distribution & Retail
+3393,JP,Information Technology,IT Services
+3401,JP,Materials,Chemicals
+3402,JP,Materials,Chemicals
+3407,JP,Materials,Chemicals
+3433,JP,Industrials,Machinery
+3436,JP,Information Technology,Semiconductors & Semiconductor Equipment
+3445,JP,Information Technology,Semiconductors & Semiconductor Equipment
+3462,JP,Real Estate,Diversified REITs
+3463,JP,Real Estate,Hotel & Resort REITs
+3465,JP,Consumer Discretionary,Household Durables
+3475,JP,Real Estate,Real Estate Management & Development
+3479,JP,Real Estate,Real Estate Management & Development
+3482,JP,Real Estate,Real Estate Management & Development
+3543,JP,Consumer Discretionary,"Hotels, Restaurants & Leisure"
+3549,JP,Consumer Staples,Consumer Staples Distribution & Retail
+3563,JP,Consumer Discretionary,"Hotels, Restaurants & Leisure"
+3593,JP,Health Care,Health Care Equipment & Supplies
+3608,JP,Consumer Discretionary,"Textiles, Apparel & Luxury Goods"
+3626,JP,Information Technology,IT Services
+3632,JP,Communication Services,Entertainment
+3635,JP,Communication Services,Entertainment
+3655,JP,Information Technology,IT Services
+3656,JP,Communication Services,Entertainment
+3657,JP,Information Technology,IT Services
+3659,JP,Communication Services,Entertainment
+3660,JP,Consumer Discretionary,Specialty Retail
+3661,JP,Information Technology,Software
+3663,JP,Information Technology,Software
+3665,JP,Consumer Discretionary,Specialty Retail
+3673,JP,Information Technology,Software
+3676,JP,Information Technology,IT Services
+3678,JP,Consumer Discretionary,Distributors
+3679,JP,Communication Services,Interactive Media & Services
+3681,JP,Communication Services,Diversified Telecommunication Services
+3687,JP,Information Technology,Software
+3694,JP,Information Technology,Software
+3696,JP,Communication Services,Media
+3697,JP,Information Technology,IT Services
+3708,JP,Materials,Paper & Forest Products
+3738,JP,Consumer Discretionary,Specialty Retail
+3762,JP,Information Technology,IT Services
+3765,JP,Communication Services,Entertainment
+3769,JP,Financials,Financial Services
+3774,JP,Communication Services,Diversified Telecommunication Services
+3778,JP,Information Technology,IT Services
+3835,JP,Information Technology,Software
+3836,JP,Information Technology,IT Services
+3843,JP,Communication Services,Diversified Telecommunication Services
+3844,JP,Information Technology,IT Services
+3853,JP,Information Technology,Software
+3854,JP,Information Technology,Software
+3861,JP,Materials,Paper & Forest Products
+3863,JP,Materials,Paper & Forest Products
+3865,JP,Materials,Paper & Forest Products
+3880,JP,Materials,Paper & Forest Products
+3902,JP,Health Care,Health Care Technology
+3911,JP,Communication Services,Entertainment
+3912,JP,Communication Services,Entertainment
+3915,JP,Information Technology,IT Services
+3916,JP,Information Technology,IT Services
+3923,JP,Information Technology,Software
+3925,JP,Information Technology,IT Services
+3926,JP,Consumer Discretionary,"Hotels, Restaurants & Leisure"
+3932,JP,Communication Services,Entertainment
+3941,JP,Materials,Containers & Packaging
+3962,JP,Information Technology,IT Services
+3993,JP,Information Technology,Software
+3994,JP,Information Technology,Software
+4004,JP,Materials,Chemicals
+4005,JP,Materials,Chemicals
+4022,JP,Materials,Chemicals
+4023,JP,Materials,Chemicals
+4028,JP,Materials,Chemicals
+4042,JP,Materials,Chemicals
+4043,JP,Materials,Chemicals
+4044,JP,Industrials,Building Products
+4046,JP,Materials,Chemicals
+4062,JP,Information Technology,"Electronic Equipment, Instruments & Components"
+4063,JP,Materials,Chemicals
+4082,JP,Materials,Chemicals
+4092,JP,Materials,Chemicals
+4109,JP,Materials,Chemicals
+4112,JP,Materials,Chemicals
+4151,JP,Health Care,Pharmaceuticals
+4182,JP,Materials,Chemicals
+4185,JP,Materials,Chemicals
+4186,JP,Materials,Chemicals
+4187,JP,Materials,Chemicals
+4189,JP,Materials,Chemicals
+4202,JP,Materials,Chemicals
+4203,JP,Materials,Chemicals
+4205,JP,Materials,Chemicals
+4216,JP,Materials,Chemicals
+4238,JP,Information Technology,Semiconductors & Semiconductor Equipment
+4272,JP,Materials,Chemicals
+4293,JP,Communication Services,Media
+4312,JP,Information Technology,Software
+4331,JP,Consumer Discretionary,Diversified Consumer Services
+4343,JP,Consumer Discretionary,"Hotels, Restaurants & Leisure"
+4368,JP,Materials,Chemicals
+4369,JP,Information Technology,Semiconductors & Semiconductor Equipment
+4384,JP,Industrials,Commercial Services & Supplies
+4385,JP,Consumer Discretionary,Broadline Retail
+4390,JP,Communication Services,Diversified Telecommunication Services
+4401,JP,Materials,Chemicals
+4403,JP,Materials,Chemicals
+4452,JP,Consumer Staples,Personal Care Products
+4503,JP,Health Care,Pharmaceuticals
+4506,JP,Health Care,Pharmaceuticals
+4516,JP,Health Care,Pharmaceuticals
+4521,JP,Health Care,Pharmaceuticals
+4526,JP,Consumer Staples,Food Products
+4527,JP,Consumer Staples,Personal Care Products
+4530,JP,Health Care,Pharmaceuticals
+4534,JP,Health Care,Pharmaceuticals
+4540,JP,Health Care,Pharmaceuticals
+4544,JP,Health Care,Health Care Providers & Services
+4547,JP,Health Care,Pharmaceuticals
+4548,JP,Health Care,Pharmaceuticals
+4552,JP,Health Care,Pharmaceuticals
+4553,JP,Health Care,Pharmaceuticals
+4559,JP,Health Care,Pharmaceuticals
+4581,JP,Health Care,Pharmaceuticals
+4587,JP,Health Care,Biotechnology
+4593,JP,Health Care,Biotechnology
+4612,JP,Materials,Chemicals
+4665,JP,Industrials,Commercial Services & Supplies
+4666,JP,Industrials,Commercial Services & Supplies
+4680,JP,Consumer Discretionary,"Hotels, Restaurants & Leisure"
+4681,JP,Consumer Discretionary,"Hotels, Restaurants & Leisure"
+4686,JP,Information Technology,Software
+4689,JP,Communication Services,Interactive Media & Services
+4694,JP,Health Care,Health Care Providers & Services
+4704,JP,Information Technology,Software
+4716,JP,Information Technology,Software
+4722,JP,Information Technology,IT Services
+4726,JP,Information Technology,IT Services
+4743,JP,Information Technology,IT Services
+4751,JP,Communication Services,Media
+4763,JP,Industrials,Professional Services
+4776,JP,Information Technology,Software
+4813,JP,Information Technology,Software
+4816,JP,Communication Services,Entertainment
+4819,JP,Information Technology,IT Services
+4825,JP,Industrials,Professional Services
+4848,JP,Industrials,Professional Services
+4849,JP,Industrials,Professional Services
+4902,JP,Information Technology,"Technology Hardware, Storage & Peripherals"
+4911,JP,Consumer Staples,Personal Care Products
+4912,JP,Consumer Staples,Household Products
+4917,JP,Consumer Staples,Personal Care Products
+4919,JP,Consumer Staples,Personal Care Products
+4921,JP,Consumer Staples,Personal Care Products
+4922,JP,Consumer Staples,Personal Care Products
+4927,JP,Consumer Staples,Personal Care Products
+4958,JP,Materials,Chemicals
+4967,JP,Consumer Staples,Personal Care Products
+4971,JP,Materials,Chemicals
+4974,JP,Health Care,Biotechnology
+4975,JP,Materials,Chemicals
+4979,JP,Materials,Chemicals
+4980,JP,Information Technology,"Electronic Equipment, Instruments & Components"
+4985,JP,Consumer Staples,Household Products
+4996,JP,Materials,Chemicals
+5011,JP,Industrials,Construction & Engineering
+5019,JP,Energy,"Oil, Gas & Consumable Fuels"
+5202,JP,Industrials,Building Products
+5232,JP,Materials,Construction Materials
+5301,JP,Materials,Chemicals
+5302,JP,Industrials,Electrical Equipment
+5310,JP,Industrials,Electrical Equipment
+5332,JP,Industrials,Building Products
+5334,JP,Consumer Discretionary,Automobile Components
+5344,JP,Information Technology,"Electronic Equipment, Instruments & Components"
+5384,JP,Materials,Chemicals
+5393,JP,Industrials,Building Products
+5408,JP,Materials,Metals & Mining
+5411,JP,Materials,Metals & Mining
+5423,JP,Materials,Metals & Mining
+5451,JP,Materials,Metals & Mining
+5480,JP,Materials,Metals & Mining
+5481,JP,Materials,Metals & Mining
+5482,JP,Materials,Metals & Mining
+5541,JP,Materials,Metals & Mining
+5631,JP,Industrials,Machinery
+5632,JP,Materials,Metals & Mining
+5698,JP,Industrials,Commercial Services & Supplies
+5702,JP,Materials,Metals & Mining
+5703,JP,Materials,Metals & Mining
+5707,JP,Materials,Metals & Mining
+5711,JP,Materials,Metals & Mining
+5713,JP,Materials,Metals & Mining
+5726,JP,Materials,Metals & Mining
+5727,JP,Materials,Metals & Mining
+5741,JP,Materials,Metals & Mining
+5801,JP,Industrials,Electrical Equipment
+5802,JP,Consumer Discretionary,Automobile Components
+5803,JP,Industrials,Electrical Equipment
+5805,JP,Industrials,Electrical Equipment
+5930,JP,Industrials,Building Products
+5932,JP,Industrials,Building Products
+5938,JP,Industrials,Building Products
+5947,JP,Consumer Discretionary,Household Durables
+5975,JP,Consumer Discretionary,Automobile Components
+5991,JP,Consumer Discretionary,Automobile Components
+6005,JP,Industrials,Machinery
+6028,JP,Industrials,Professional Services
+6035,JP,Industrials,Professional Services
+6036,JP,Materials,Chemicals
+6050,JP,Information Technology,IT Services
+6055,JP,Information Technology,Semiconductors & Semiconductor Equipment
+6058,JP,Communication Services,Media
+6062,JP,Health Care,Health Care Providers & Services
+6071,JP,Consumer Discretionary,Diversified Consumer Services
+6080,JP,Financials,Capital Markets
+6088,JP,Industrials,Professional Services
+6095,JP,Health Care,Health Care Technology
+6098,JP,Industrials,Professional Services
+6099,JP,Health Care,Health Care Providers & Services
+6101,JP,Industrials,Machinery
+6103,JP,Industrials,Machinery
+6104,JP,Industrials,Machinery
+6134,JP,Industrials,Machinery
+6135,JP,Industrials,Machinery
+6141,JP,Industrials,Machinery
+6143,JP,Industrials,Machinery
+6145,JP,Industrials,Machinery
+6146,JP,Information Technology,Semiconductors & Semiconductor Equipment
+6184,JP,Communication Services,Interactive Media & Services
+6191,JP,Consumer Discretionary,"Hotels, Restaurants & Leisure"
+6194,JP,Communication Services,Interactive Media & Services
+6197,JP,Health Care,Health Care Providers & Services
+6199,JP,Information Technology,IT Services
+6200,JP,Industrials,Professional Services
+6201,JP,Industrials,Machinery
+6235,JP,Information Technology,Semiconductors & Semiconductor Equipment
+6238,JP,Consumer Discretionary,Leisure Products
+6240,JP,Industrials,Machinery
+6250,JP,Industrials,Machinery
+6254,JP,Industrials,Machinery
+6258,JP,Industrials,Machinery
+6264,JP,Industrials,Machinery
+6266,JP,Information Technology,Semiconductors & Semiconductor Equipment
+6268,JP,Industrials,Machinery
+6269,JP,Energy,Energy Equipment & Services
+6272,JP,Industrials,Machinery
+6273,JP,Industrials,Machinery
+6278,JP,Industrials,Machinery
+6284,JP,Industrials,Machinery
+6287,JP,Industrials,Commercial Services & Supplies
+6289,JP,Industrials,Machinery
+6298,JP,Information Technology,Semiconductors & Semiconductor Equipment
+6301,JP,Industrials,Machinery
+6302,JP,Industrials,Machinery
+6305,JP,Industrials,Machinery
+6315,JP,Information Technology,Semiconductors & Semiconductor Equipment
+6323,JP,Information Technology,Semiconductors & Semiconductor Equipment
+6324,JP,Industrials,Machinery
+6330,JP,Industrials,Construction & Engineering
+6333,JP,Industrials,Machinery
+6361,JP,Industrials,Machinery
+6363,JP,Industrials,Machinery
+6366,JP,Industrials,Construction & Engineering
+6367,JP,Industrials,Building Products
+6368,JP,Industrials,Machinery
+6370,JP,Industrials,Machinery
+6371,JP,Industrials,Machinery
+6379,JP,Industrials,Construction & Engineering
+6383,JP,Industrials,Machinery
+6406,JP,Industrials,Machinery
+6407,JP,Industrials,Machinery
+6412,JP,Consumer Discretionary,"Hotels, Restaurants & Leisure"
+6417,JP,Consumer Discretionary,Leisure Products
+6418,JP,Information Technology,"Electronic Equipment, Instruments & Components"
+6425,JP,Consumer Discretionary,Leisure Products
+6432,JP,Industrials,Machinery
+6455,JP,Industrials,Machinery
+6457,JP,Industrials,Machinery
+6460,JP,Consumer Discretionary,Leisure Products
+6465,JP,Industrials,Machinery
+6479,JP,Industrials,Machinery
+6480,JP,Industrials,Machinery
+6481,JP,Industrials,Machinery
+6486,JP,Consumer Discretionary,Automobile Components
+6490,JP,Materials,Chemicals
+6501,JP,Industrials,Industrial Conglomerates
+6503,JP,Industrials,Electrical Equipment
+6504,JP,Industrials,Electrical Equipment
+6506,JP,Industrials,Machinery
+6507,JP,Industrials,Electrical Equipment
+6516,JP,Industrials,Electrical Equipment
+6532,JP,Industrials,Professional Services
+6535,JP,Communication Services,Interactive Media & Services
+6544,JP,Industrials,Commercial Services & Supplies
+6564,JP,Industrials,Commercial Services & Supplies
+6584,JP,Consumer Discretionary,Automobile Components
+6586,JP,Industrials,Machinery
+6590,JP,Information Technology,Semiconductors & Semiconductor Equipment
+6594,JP,Industrials,Electrical Equipment
+6616,JP,Information Technology,Semiconductors & Semiconductor Equipment
+6619,JP,Materials,Chemicals
+6622,JP,Industrials,Electrical Equipment
+6632,JP,Consumer Discretionary,Household Durables
+6640,JP,Information Technology,"Electronic Equipment, Instruments & Components"
+6644,JP,Information Technology,"Electronic Equipment, Instruments & Components"
+6645,JP,Information Technology,"Electronic Equipment, Instruments & Components"
+6651,JP,Industrials,Electrical Equipment
+6670,JP,Information Technology,"Technology Hardware, Storage & Peripherals"
+6674,JP,Industrials,Electrical Equipment
+6701,JP,Information Technology,IT Services
+6702,JP,Information Technology,IT Services
+6707,JP,Information Technology,Semiconductors & Semiconductor Equipment
+6723,JP,Information Technology,Semiconductors & Semiconductor Equipment
+6727,JP,Information Technology,"Technology Hardware, Storage & Peripherals"
+6728,JP,Information Technology,Semiconductors & Semiconductor Equipment
+6741,JP,Information Technology,"Electronic Equipment, Instruments & Components"
+6744,JP,Information Technology,"Electronic Equipment, Instruments & Components"
+6752,JP,Consumer Discretionary,Household Durables
+6753,JP,Consumer Discretionary,Household Durables
+6755,JP,Consumer Discretionary,Household Durables
+6762,JP,Information Technology,"Electronic Equipment, Instruments & Components"
+6768,JP,Information Technology,"Electronic Equipment, Instruments & Components"
+6770,JP,Information Technology,"Electronic Equipment, Instruments & Components"
+6779,JP,Information Technology,"Electronic Equipment, Instruments & Components"
+6787,JP,Information Technology,"Electronic Equipment, Instruments & Components"
+6789,JP,Information Technology,"Technology Hardware, Storage & Peripherals"
+6794,JP,Consumer Discretionary,Household Durables
+6800,JP,Information Technology,"Electronic Equipment, Instruments & Components"
+6810,JP,Information Technology,"Electronic Equipment, Instruments & Components"
+6814,JP,Information Technology,"Electronic Equipment, Instruments & Components"
+6817,JP,Information Technology,"Electronic Equipment, Instruments & Components"
+6841,JP,Information Technology,"Electronic Equipment, Instruments & Components"
+6855,JP,Information Technology,Semiconductors & Semiconductor Equipment
+6856,JP,Information Technology,"Electronic Equipment, Instruments & Components"
+6857,JP,Information Technology,Semiconductors & Semiconductor Equipment
+6859,JP,Information Technology,"Electronic Equipment, Instruments & Components"
+6861,JP,Information Technology,"Electronic Equipment, Instruments & Components"
+6866,JP,Information Technology,"Electronic Equipment, Instruments & Components"
+6869,JP,Health Care,Health Care Equipment & Supplies
+6871,JP,Information Technology,Semiconductors & Semiconductor Equipment
+6875,JP,Information Technology,Semiconductors & Semiconductor Equipment
+6890,JP,Information Technology,Semiconductors & Semiconductor Equipment
+6902,JP,Consumer Discretionary,Automobile Components
+6908,JP,Information Technology,"Electronic Equipment, Instruments & Components"
+6920,JP,Information Technology,Semiconductors & Semiconductor Equipment
+6941,JP,Information Technology,Semiconductors & Semiconductor Equipment
+6951,JP,Health Care,Health Care Equipment & Supplies
+6952,JP,Consumer Discretionary,Household Durables
+6954,JP,Industrials,Machinery
+6958,JP,Information Technology,"Electronic Equipment, Instruments & Components"
+6961,JP,Information Technology,"Electronic Equipment, Instruments & Components"
+6963,JP,Information Technology,Semiconductors & Semiconductor Equipment
+6965,JP,Information Technology,"Electronic Equipment, Instruments & Components"
+6966,JP,Information Technology,Semiconductors & Semiconductor Equipment
+6967,JP,Information Technology,Semiconductors & Semiconductor Equipment
+6976,JP,Information Technology,"Electronic Equipment, Instruments & Components"
+6981,JP,Information Technology,"Electronic Equipment, Instruments & Components"
+6988,JP,Materials,Chemicals
+6999,JP,Information Technology,"Electronic Equipment, Instruments & Components"
+7003,JP,Industrials,Machinery
+7004,JP,Industrials,Machinery
+7011,JP,Industrials,Machinery
+7012,JP,Industrials,Machinery
+7013,JP,Industrials,Machinery
+7014,JP,Industrials,Machinery
+7033,JP,Industrials,Professional Services
+7105,JP,Industrials,Machinery
+7157,JP,Financials,Insurance
+7180,JP,Financials,Banks
+7187,JP,Financials,Financial Services
+7199,JP,Financials,Consumer Finance
+7201,JP,Consumer Discretionary,Automobiles
+7203,JP,Consumer Discretionary,Automobiles
+7205,JP,Industrials,Machinery
+7211,JP,Consumer Discretionary,Automobiles
+7222,JP,Consumer Discretionary,Automobiles
+7224,JP,Industrials,Machinery
+7244,JP,Consumer Discretionary,Automobile Components
+7269,JP,Consumer Discretionary,Automobiles
+7270,JP,Consumer Discretionary,Automobiles
+7272,JP,Consumer Discretionary,Automobiles
+7276,JP,Consumer Discretionary,Automobile Components
+7309,JP,Consumer Discretionary,Leisure Products
+7412,JP,Consumer Discretionary,"Hotels, Restaurants & Leisure"
+7414,JP,Industrials,Trading Companies & Distributors
+7419,JP,Consumer Discretionary,Specialty Retail
+7420,JP,Information Technology,"Electronic Equipment, Instruments & Components"
+7433,JP,Information Technology,"Electronic Equipment, Instruments & Components"
+7456,JP,Industrials,Commercial Services & Supplies
+7458,JP,Communication Services,Entertainment
+7459,JP,Health Care,Health Care Providers & Services
+7476,JP,Health Care,Health Care Providers & Services
+7508,JP,Consumer Staples,Consumer Staples Distribution & Retail
+7518,JP,Information Technology,IT Services
+7522,JP,Consumer Discretionary,"Hotels, Restaurants & Leisure"
+7537,JP,Information Technology,"Electronic Equipment, Instruments & Components"
+7545,JP,Consumer Discretionary,Specialty Retail
+7564,JP,Consumer Discretionary,Specialty Retail
+7575,JP,Health Care,Health Care Equipment & Supplies
+7581,JP,Consumer Discretionary,"Hotels, Restaurants & Leisure"
+7595,JP,Information Technology,IT Services
+7599,JP,Consumer Discretionary,Specialty Retail
+7606,JP,Consumer Discretionary,Specialty Retail
+7611,JP,Consumer Discretionary,"Hotels, Restaurants & Leisure"
+7613,JP,Information Technology,"Electronic Equipment, Instruments & Components"
+7616,JP,Consumer Discretionary,"Hotels, Restaurants & Leisure"
+7649,JP,Consumer Staples,Consumer Staples Distribution & Retail
+7701,JP,Information Technology,"Electronic Equipment, Instruments & Components"
+7716,JP,Health Care,Health Care Equipment & Supplies
+7717,JP,Information Technology,"Electronic Equipment, Instruments & Components"
+7721,JP,Industrials,Machinery
+7725,JP,Information Technology,Semiconductors & Semiconductor Equipment
+7729,JP,Information Technology,Semiconductors & Semiconductor Equipment
+7732,JP,Information Technology,"Electronic Equipment, Instruments & Components"
+7733,JP,Health Care,Health Care Equipment & Supplies
+7734,JP,Information Technology,"Electronic Equipment, Instruments & Components"
+7735,JP,Information Technology,Semiconductors & Semiconductor Equipment
+7741,JP,Health Care,Health Care Equipment & Supplies
+7745,JP,Information Technology,"Electronic Equipment, Instruments & Components"
+7751,JP,Information Technology,"Technology Hardware, Storage & Peripherals"
+7762,JP,Information Technology,"Electronic Equipment, Instruments & Components"
+7780,JP,Health Care,Health Care Equipment & Supplies
+7816,JP,Consumer Discretionary,Leisure Products
+7817,JP,Health Care,Health Care Equipment & Supplies
+7821,JP,Materials,Construction Materials
+7826,JP,Information Technology,Semiconductors & Semiconductor Equipment
+7832,JP,Consumer Discretionary,Leisure Products
+7846,JP,Industrials,Commercial Services & Supplies
+7860,JP,Communication Services,Entertainment
+7868,JP,Industrials,Commercial Services & Supplies
+7888,JP,Industrials,Machinery
+7906,JP,Consumer Discretionary,Leisure Products
+7911,JP,Industrials,Commercial Services & Supplies
+7936,JP,Consumer Discretionary,"Textiles, Apparel & Luxury Goods"
+7947,JP,Materials,Containers & Packaging
+7951,JP,Consumer Discretionary,Leisure Products
+7956,JP,Consumer Staples,Household Products
+7965,JP,Consumer Discretionary,Household Durables
+7984,JP,Industrials,Commercial Services & Supplies
+7988,JP,Consumer Discretionary,Automobile Components
+7990,JP,Consumer Discretionary,Leisure Products
+8002,JP,Industrials,Trading Companies & Distributors
+8031,JP,Industrials,Trading Companies & Distributors
+8035,JP,Information Technology,Semiconductors & Semiconductor Equipment
+8050,JP,Consumer Discretionary,"Textiles, Apparel & Luxury Goods"
+8053,JP,Industrials,Trading Companies & Distributors
+8056,JP,Information Technology,IT Services
+8058,JP,Industrials,Trading Companies & Distributors
+8068,JP,Information Technology,"Electronic Equipment, Instruments & Components"
+8086,JP,Health Care,Health Care Equipment & Supplies
+8111,JP,Consumer Discretionary,"Textiles, Apparel & Luxury Goods"
+8113,JP,Consumer Staples,Household Products
+8114,JP,Consumer Discretionary,"Textiles, Apparel & Luxury Goods"
+8129,JP,Health Care,Health Care Providers & Services
+8133,JP,Energy,"Oil, Gas & Consumable Fuels"
+8136,JP,Consumer Discretionary,Specialty Retail
+8155,JP,Information Technology,Semiconductors & Semiconductor Equipment
+8173,JP,Consumer Discretionary,Specialty Retail
+8179,JP,Consumer Discretionary,"Hotels, Restaurants & Leisure"
+8185,JP,Consumer Discretionary,Specialty Retail
+8214,JP,Consumer Discretionary,Specialty Retail
+8217,JP,Consumer Staples,Consumer Staples Distribution & Retail
+8218,JP,Consumer Discretionary,Specialty Retail
+8219,JP,Consumer Discretionary,Specialty Retail
+8227,JP,Consumer Discretionary,Specialty Retail
+8252,JP,Financials,Consumer Finance
+8267,JP,Consumer Staples,Consumer Staples Distribution & Retail
+8273,JP,Consumer Discretionary,Broadline Retail
+8276,JP,Consumer Staples,Consumer Staples Distribution & Retail
+8279,JP,Consumer Staples,Consumer Staples Distribution & Retail
+8281,JP,Consumer Discretionary,Specialty Retail
+8282,JP,Consumer Discretionary,Specialty Retail
+8283,JP,Consumer Discretionary,Distributors
+8308,JP,Financials,Banks
+8334,JP,Financials,Banks
+8358,JP,Financials,Banks
+8439,JP,Financials,Financial Services
+8511,JP,Financials,Financial Services
+8584,JP,Financials,Consumer Finance
+8595,JP,Financials,Capital Markets
+8604,JP,Financials,Capital Markets
+8609,JP,Financials,Capital Markets
+8630,JP,Financials,Insurance
+8697,JP,Financials,Capital Markets
+8698,JP,Financials,Capital Markets
+8725,JP,Financials,Insurance
+8766,JP,Financials,Insurance
+8771,JP,Financials,Financial Services
+8850,JP,Real Estate,Real Estate Management & Development
+8871,JP,Real Estate,Real Estate Management & Development
+8876,JP,Real Estate,Real Estate Management & Development
+8890,JP,Real Estate,Real Estate Management & Development
+8905,JP,Real Estate,Real Estate Management & Development
+8919,JP,Real Estate,Real Estate Management & Development
+8920,JP,Consumer Discretionary,"Hotels, Restaurants & Leisure"
+8923,JP,Real Estate,Real Estate Management & Development
+8929,JP,Real Estate,Real Estate Management & Development
+8951,JP,Real Estate,Office REITs
+8952,JP,Real Estate,Office REITs
+8953,JP,Real Estate,Retail REITs
+8954,JP,Real Estate,Office REITs
+8955,JP,Real Estate,Office REITs
+8963,JP,Real Estate,Hotel & Resort REITs
+9001,JP,Industrials,Ground Transportation
+9003,JP,Industrials,Ground Transportation
+9005,JP,Industrials,Ground Transportation
+9006,JP,Industrials,Ground Transportation
+9007,JP,Industrials,Ground Transportation
+9008,JP,Industrials,Ground Transportation
+9010,JP,Consumer Discretionary,"Hotels, Restaurants & Leisure"
+9020,JP,Industrials,Ground Transportation
+9021,JP,Industrials,Ground Transportation
+9022,JP,Industrials,Ground Transportation
+9024,JP,Industrials,Ground Transportation
+9025,JP,Industrials,Air Freight & Logistics
+9037,JP,Industrials,Ground Transportation
+9039,JP,Industrials,Ground Transportation
+9041,JP,Industrials,Ground Transportation
+9042,JP,Industrials,Ground Transportation
+9044,JP,Industrials,Ground Transportation
+9045,JP,Industrials,Industrial Conglomerates
+9048,JP,Industrials,Ground Transportation
+9065,JP,Industrials,Air Freight & Logistics
+9069,JP,Industrials,Air Freight & Logistics
+9072,JP,Industrials,Ground Transportation
+9090,JP,Industrials,Air Freight & Logistics
+9107,JP,Industrials,Marine Transportation
+9142,JP,Industrials,Ground Transportation
+9143,JP,Industrials,Air Freight & Logistics
+9147,JP,Industrials,Ground Transportation
+9260,JP,Consumer Staples,Consumer Staples Distribution & Retail
+9267,JP,Consumer Staples,Consumer Staples Distribution & Retail
+9274,JP,Industrials,Trading Companies & Distributors
+9278,JP,Consumer Discretionary,Specialty Retail
+9279,JP,Consumer Discretionary,"Hotels, Restaurants & Leisure"
+9301,JP,Industrials,Transportation Infrastructure
+9302,JP,Industrials,Air Freight & Logistics
+9303,JP,Industrials,Transportation Infrastructure
+9308,JP,Industrials,Commercial Services & Supplies
+9364,JP,Industrials,Transportation Infrastructure
+9401,JP,Communication Services,Media
+9404,JP,Communication Services,Media
+9416,JP,Communication Services,Diversified Telecommunication Services
+9432,JP,Communication Services,Diversified Telecommunication Services
+9433,JP,Communication Services,Wireless Telecommunication Services
+9449,JP,Information Technology,IT Services
+9502,JP,Utilities,Electric Utilities
+9503,JP,Utilities,Electric Utilities
+9511,JP,Utilities,Electric Utilities
+9517,JP,Utilities,Independent Power & Renewable Electricity Producers
+9519,JP,Utilities,Independent Power & Renewable Electricity Producers
+9531,JP,Utilities,Gas Utilities
+9532,JP,Utilities,Gas Utilities
+9533,JP,Utilities,Gas Utilities
+9543,JP,Utilities,Gas Utilities
+9601,JP,Communication Services,Entertainment
+9602,JP,Communication Services,Entertainment
+9603,JP,Consumer Discretionary,"Hotels, Restaurants & Leisure"
+9605,JP,Communication Services,Entertainment
+9613,JP,Information Technology,IT Services
+9616,JP,Consumer Discretionary,"Hotels, Restaurants & Leisure"
+9627,JP,Consumer Staples,Consumer Staples Distribution & Retail
+9672,JP,Consumer Discretionary,"Hotels, Restaurants & Leisure"
+9684,JP,Communication Services,Entertainment
+9699,JP,Industrials,Trading Companies & Distributors
+9706,JP,Industrials,Transportation Infrastructure
+9715,JP,Industrials,Professional Services
+9722,JP,Consumer Discretionary,"Hotels, Restaurants & Leisure"
+9726,JP,Consumer Discretionary,"Hotels, Restaurants & Leisure"
+9735,JP,Industrials,Commercial Services & Supplies
+9749,JP,Information Technology,Software
+9757,JP,Industrials,Professional Services
+9787,JP,Industrials,Commercial Services & Supplies
+9793,JP,Industrials,Commercial Services & Supplies
+9830,JP,Industrials,Trading Companies & Distributors
+9831,JP,Consumer Discretionary,Specialty Retail
+9842,JP,Consumer Discretionary,Specialty Retail
+9843,JP,Consumer Discretionary,Specialty Retail
+9873,JP,Consumer Discretionary,"Hotels, Restaurants & Leisure"
+9882,JP,Consumer Discretionary,Specialty Retail
+9948,JP,Consumer Staples,Consumer Staples Distribution & Retail
+9956,JP,Consumer Staples,Consumer Staples Distribution & Retail
+9962,JP,Industrials,Machinery
+9983,JP,Consumer Discretionary,Specialty Retail
+9984,JP,Communication Services,Wireless Telecommunication Services
+9987,JP,Health Care,Health Care Providers & Services
+9989,JP,Consumer Staples,Consumer Staples Distribution & Retail
+167A,JP,Information Technology,"Electronic Equipment, Instruments & Components"
