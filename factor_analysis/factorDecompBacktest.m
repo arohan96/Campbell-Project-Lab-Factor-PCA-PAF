@@ -21,9 +21,10 @@ visualizeBeforeAfterRotation = '';  % '', before, after, both
 % ('' = none)
 numVariablesToShow = 15;   % how many variables to show in visualizations
 visualize = false;  % Whether to visualize eigenvalues and communalities
-saveLoadings = true; % Whether to save factor loadings after each run
-returnsFileName = 'asia_returns.xlsx'; % Flatfile for retreiving returns 
+saveOutput = true; % Whether to save factor loadings after each run
+returnsFileName = 'russell_1000_returns.xlsx'; % Flatfile for retreiving returns 
                                       % data
+outputFolder = 'russell_1000_output'; % Folder for saving output 
 
 %% setup
 clc;
@@ -53,7 +54,8 @@ if length(tickers) == size(mktRtns, 1)
     mktRtns = mktRtns';
 elseif length(tickers) ~= size(mktRtns, 2)
     error( ...
-        'Number of tickers (%d) does not match number of markets in returns data (%d)', ...
+        ['Number of tickers (%d) does not match number of markets in ' ...
+        'returns data (%d)'], ...
         length(tickers), size(mktRtns, 2));
 end
 
@@ -103,4 +105,57 @@ for iii = 1:4
     subplot(2, 2, iii);
     plot(estNormFactorRtns(:, iii), 'b', 'LineWidth', 1.5);
     legend('Estimated Factor Returns')
+end
+
+% Check if we have to save output
+if saveOutput == true
+
+    %% Save output to disk
+    rollingDates = dates(factorConstructionLookback+1:end);
+    % Add table variables
+    tableVariables = arrayfun(@(x) ['Factor ', num2str(x)], ...
+        1:nFactorsToCompute, 'UniformOutput', false);
+    
+    % Convert Portfolio Betas to table
+    portBetasTable = array2table(portBetas, 'VariableNames', ...
+        tableVariables);
+    portBetasTable.("Date") = rollingDates;
+    % Save to disk
+    portBetaFile = fullfile(currentPath, outputFolder, 'portBetas.xlsx');
+    writetable(portBetasTable, portBetaFile);
+    
+    % Convert Factor vols to table
+    factorVolsTable = array2table(factorVols, 'VariableNames', ...
+        tableVariables);
+    factorVolsTable.("Date") = rollingDates;
+    % Save to disk
+    factorVolsFile = fullfile(currentPath, outputFolder, ...
+        'factorVols.xlsx');
+    writetable(factorVolsTable, factorVolsFile);
+    
+    % Iterating through Factor Loadings and Factor Returns
+    for iii = 1:(nDays - factorConstructionLookback)
+        date = rollingDates(iii);
+        
+        % Converting Factor Loadings to Tables
+        factorLoadingsTable = array2table(factorLoadings(:, :, iii), ...
+            'VariableNames', tableVariables);
+        % Adding tickers
+        factorLoadingsTable.("Ticker") = tickers;
+        % Saving to disk
+        factorLoadingsFile = strcat(datestr(date), '.xlsx');
+        factorLoadingsPath = fullfile(currentPath, outputFolder, ...
+            'factorLoadings', factorLoadingsFile);
+        writetable(factorLoadingsTable, factorLoadingsPath);
+    
+        % COnverting factor returns to table
+        factorRtnsTable = array2table(estFactorRtns(:, :, iii), ...
+            'VariableNames', tableVariables);
+        % Saving to disk
+        factorRtnsFile = strcat(datestr(date), '.xlsx');
+        factorRtnsPath = fullfile(currentPath, outputFolder, ...
+            'factorReturns', factorLoadingsFile);
+        writetable(factorRtnsTable, factorRtnsPath);
+    end
+
 end
