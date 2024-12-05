@@ -22,9 +22,9 @@ visualizeBeforeAfterRotation = '';  % '', before, after, both
 numVariablesToShow = 15;   % how many variables to show in visualizations
 visualize = false;  % Whether to visualize eigenvalues and communalities
 saveOutput = true; % Whether to save factor loadings after each run
-returnsFileName = 'russell_1000_returns.xlsx'; % Flatfile for retreiving returns 
-                                      % data
-outputFolder = 'russell_1000_output'; % Folder for saving output 
+returnsFileName = 'asia_returns.xlsx'; % Flatfile for retreiving 
+                                               % returns data
+outputFolder = 'asia_returns_output'; % Folder for saving output 
 
 %% setup
 clc;
@@ -41,12 +41,17 @@ dates = returnsData{:, 1};
 mktRtns = returnsData(:, 2:end);
 mktRtns = table2array(mktRtns);
 
+[nDays, nMkts] = size(mktRtns);
+disp(['Number of days: ', num2str(nDays)]);
+disp(['Number of markets: ', num2str(nMkts)]);
+
+% Remove any columns with missing data (NaNs)
+nanCols = any(isnan(mktRtns), 1);
+mktRtns = mktRtns(:, ~nanCols);
+
 % Extract tickers
 tickers = string(returnsData.Properties.VariableNames);
 tickers = tickers(2:end);
-
-% Ensure tickers are a column vector
-tickers = tickers(:);
 
 % Check if tickers correspond to rows in mktRtns
 if length(tickers) == size(mktRtns, 1)
@@ -59,19 +64,14 @@ elseif length(tickers) ~= size(mktRtns, 2)
         length(tickers), size(mktRtns, 2));
 end
 
-[nDays, nMkts] = size(mktRtns);
-disp(['Number of days: ', num2str(nDays)]);
-disp(['Number of markets: ', num2str(nMkts)]);
-
-% Remove any rows with missing data (NaNs)
-nanRows = any(isnan(mktRtns), 2);
-mktRtns = mktRtns(~nanRows, :);
-dates = dates(~nanRows);
+% Ensure tickers are a column vector
+tickers = tickers(:);
 
 % Set positions (e.g., equal weights)
 rollingDays = nDays - factorConstructionLookback;
 h_deMean = @(x, dim) x - nanmean(x, dim);
-myPositions = h_deMean(randn(rollingDays, nMkts), 2);
+myPositions = -h_deMean(movmean(mktRtns, [10, 0]), 2);  
+myPositions = myPositions((factorConstructionLookback+1):end, :);
 
 % Update params
 params.nFactorsToCompute = nFactorsToCompute;
@@ -143,19 +143,21 @@ if saveOutput == true
         % Adding tickers
         factorLoadingsTable.("Ticker") = tickers;
         % Saving to disk
-        factorLoadingsFile = strcat(datestr(date), '.xlsx');
+        factorLoadingsFile = strcat(datestr(date, 'yyyy-mm-dd'), '.xlsx');
         factorLoadingsPath = fullfile(currentPath, outputFolder, ...
             'factorLoadings', factorLoadingsFile);
         writetable(factorLoadingsTable, factorLoadingsPath);
     
-        % COnverting factor returns to table
-        factorRtnsTable = array2table(estFactorRtns(:, :, iii), ...
+        % Converting factor returns to table
+        estNormFactorRtns = bsxfun(@rdivide, ...
+            estFactorRtns(:, :, iii) - mean(estFactorRtns(:, :, iii)), ...
+            factorVols(iii, :));
+        factorRtnsTable = array2table(estNormFactorRtns, ...
             'VariableNames', tableVariables);
         % Saving to disk
-        factorRtnsFile = strcat(datestr(date), '.xlsx');
+        factorRtnsFile = strcat(datestr(date, 'yyyy-mm-dd'), '.xlsx');
         factorRtnsPath = fullfile(currentPath, outputFolder, ...
             'factorReturns', factorLoadingsFile);
         writetable(factorRtnsTable, factorRtnsPath);
     end
-
 end
