@@ -1,5 +1,5 @@
-function [estFactorRtns, portBetas, factorVols] = factorDecomposition( ...
-    mktRtns, myPositions, params)
+function [factorLoadings, estFactorRtns, portBetas, factorVols] = factorDecomposition( ...
+    mktRtns, myPositions, params)   
     %% factorDecomposition
     % Take as input a matrix of market returns and  apply dimensionality
     % reduction using either Principal Component Analysis (PCA) or 
@@ -43,6 +43,8 @@ function [estFactorRtns, portBetas, factorVols] = factorDecomposition( ...
     %       ('' = none)
     %       params.numVariablesToShow: Number of factors to use for 
     %       visualization
+    %       params.prevLoadings: An mxk matrix of factor loadings from the
+    %       previous iteration.
     %% Outputs:
     %   estFactorRtns: a Txk matrix of factor returns where T is the total 
     %   number of time periods and k is the number of factor loadings.
@@ -124,6 +126,29 @@ function [estFactorRtns, portBetas, factorVols] = factorDecomposition( ...
     % Computing the first 'k' factors
     factorLoadings = eigenVectors(:, 1:k);
 
+    % Setting up factor rotation object
+    rotation = factorRotation;
+    rotation.factorLoadings = factorLoadings;
+
+    %% kaiser normalization (optional, can use by itself or to prepare 
+    % factors for rotation)
+    if params.kaiserNormalizeLoadings == true
+        factorLoadings = rotation.kaiserNormalization(eigenValues(1:k));
+    end
+
+    % Check for sign indeterminancy in Factor Loadings
+    factorUtils = utils;
+    if isfield(params, 'prevLoadings')
+        % Compute angles between previous loadings and current loadings
+        angles = factorUtils.computeAngleMatrix(params.prevLoadings, ...
+            factorLoadings);
+        % Find all angles close to 180 degrees
+        eigenVecIndices = factorUtils.findColumnsInRange(angles, 170, 190);
+        % Multiplying corresponding factor loadings with -1
+        factorLoadings(:, eigenVecIndices) = -1*factorLoadings( ...
+            :, eigenVecIndices);
+    end
+
     % Check if visualization is set to true
     if params.visualize == true
         % Setting up visualization object for plotting graphs
@@ -149,16 +174,6 @@ function [estFactorRtns, portBetas, factorVols] = factorDecomposition( ...
                 params.rotationType, params.numVariablesToShow, ...
                 'before rotation', 'bar');
         end
-    end
-    
-    % Setting up factor rotation object
-    rotation = factorRotation;
-    rotation.factorLoadings = factorLoadings;
-    
-    %% kaiser normalization (optional, can use by itself or to prepare 
-    % factors for rotation)
-    if params.kaiserNormalizeLoadings == true
-        factorLoadings = rotation.kaiserNormalization(eigenValues(1:k));
     end
 
     %% call factor loading rotation function (optional)
