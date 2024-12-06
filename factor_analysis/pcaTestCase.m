@@ -3,11 +3,11 @@ nDays = 500;
 nMkts = 1000;
 nTrueFactors = 4;
 drift = 0.0001;
-maxSecondFactorSize = 5;
+maxSecondFactorSize = 0.5;
 nFactorsToCompute = 4;
 modelType = 'PCA';
 idioVolScaler = 0.5;
-seedVal = 92429399;       % -1 => choose a new seed value
+seedVal = 92502392;       % -1 => choose a new seed value
 factorConstructionLookback = 60;
 volLookback = 60;
 tolerance=1e-3;
