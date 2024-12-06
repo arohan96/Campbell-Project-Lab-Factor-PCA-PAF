@@ -1,12 +1,18 @@
 %% params
 nDays = 500;
 nMkts = 1000;
+nTrueFactors = 4;
+drift = 0.0001;
+maxSecondFactorSize = 0.5;
 nFactorsToCompute = 4;
 modelType = 'PAF';
+idioVolScaler = 0.5;
+seedVal = 92417807;       % -1 => choose a new seed value
 factorConstructionLookback = 60;
 volLookback = 60;
 tolerance=1e-3;
 iterations=100;
+useCorrelation = false; % Set to false to use covariance matrix for factor analysis
 kaiserNormalizeLoadings = true;   % true or false (use kaiser normalization
 % for loadings?)
 rotationType = '';   % '', varimax, quartimax, promax, equamax, 
@@ -76,6 +82,7 @@ params.factorConstructionLookback = factorConstructionLookback;
 params.volLookback = factorConstructionLookback;
 params.tolerance = tolerance;
 params.iterations = iterations;
+params.useCorrelation = useCorrelation;
 params.kaiserNormalizeLoadings = kaiserNormalizeLoadings;
 params.rotationType = rotationType;
 params.builtInNormalizeLoadings = builtInNormalizeLoadings;
@@ -119,34 +126,34 @@ for iii = 1:4
     scatter(factorXcmp(:, 1, iii), factorXcmp(:, 2, iii))
 end
 
-%% Testing Rolling Implementation
-% The factorConstructionLookback is used as the rolling window
-% Number of iterations to run is the total number of days minus the factor
-% construction lookback
-rollingDays = params.nDays - params.factorConstructionLookback;
-myPositions = h_deMean(randn(rollingDays, nMkts), 2);
-
-ut = utils;
-
-% Setting visualization to False so we don't get visualizations for each
-% rolling iteration
-params.visualize = false;
-
-[estFactorRtns, portBetas, factorVols, factorLoadings] = ut.rolling( ...
-    mktRtns, myPositions, params);
-
-% normalized factor returns
-estNormFactorRtns = bsxfun(@rdivide, estFactorRtns(:, :, end), ...
-    factorVols(end, :));
-trueNormFactorRtns = bsxfun(@rdivide, factorRtns, nanstd(factorRtns));
-% Plotting factor returns for the last iteration
-figure();
-for iii = 1:4
-    subplot(2, 2, iii);
-    plot(estNormFactorRtns(:, iii), 'b', 'LineWidth', 1.5);
-    hold on
-    plot(trueNormFactorRtns(end - factorConstructionLookback:end, ...
-        iii), 'r', 'LineWidth', 1.5);
-    hold off
-    legend('Estimated Factor Returns', 'Actual Factor Returns')
-end
+% %% Testing Rolling Implementation
+% % The factorConstructionLookback is used as the rolling window
+% % Number of iterations to run is the total number of days minus the factor
+% % construction lookback
+% rollingDays = params.nDays - params.factorConstructionLookback;
+% myPositions = h_deMean(randn(rollingDays, nMkts), 2);
+% 
+% ut = utils;
+% 
+% % Setting visualization to False so we don't get visualizations for each
+% % rolling iteration
+% params.visualize = false;
+% 
+% [estFactorRtns, portBetas, factorVols, factorLoadings] = ut.rolling( ...
+%     mktRtns, myPositions, params);
+% 
+% % normalized factor returns
+% estNormFactorRtns = bsxfun(@rdivide, estFactorRtns(:, :, end), ...
+%     factorVols(end, :));
+% trueNormFactorRtns = bsxfun(@rdivide, factorRtns, nanstd(factorRtns));
+% % Plotting factor returns for the last iteration
+% figure();
+% for iii = 1:4
+%     subplot(2, 2, iii);
+%     plot(estNormFactorRtns(:, iii), 'b', 'LineWidth', 1.5);
+%     hold on
+%     plot(trueNormFactorRtns(end - factorConstructionLookback:end, ...
+%         iii), 'r', 'LineWidth', 1.5);
+%     hold off
+%     legend('Estimated Factor Returns', 'Actual Factor Returns')
+% end

@@ -1,7 +1,7 @@
 function [factorLoadings, estFactorRtns, portBetas, factorVols] = factorDecomposition( ...
-    mktRtns, myPositions, params)   
+    mktRtns, myPositions, params)
     %% factorDecomposition
-    % Take as input a matrix of market returns and  apply dimensionality
+    % Take as input a matrix of market returns and apply dimensionality
     % reduction using either Principal Component Analysis (PCA) or 
     % Principal Axis Factoring (PAF).
     %% Inputs:
@@ -65,12 +65,16 @@ function [factorLoadings, estFactorRtns, portBetas, factorVols] = factorDecompos
     % De-meaning returns
     mktRtnsLookbackAdj = mktRtnsLookbackAdj - mean(mktRtnsLookbackAdj);
     
-    % Computing correlation matrix
-    corrMatrix = corr(mktRtnsLookbackAdj);
+    % Compute either correlation or covariance matrix based on params.useCorrelation
+    if params.useCorrelation
+        inputMatrix = corr(mktRtnsLookbackAdj);
+    else
+        inputMatrix = cov(mktRtnsLookbackAdj);
+    end
 
     % Setting up Eigen Value Decomposition object
     evd = eigenValueDecomposition;
-    evd.corrMatrix = corrMatrix;
+    evd.inputMatrix = inputMatrix;
     
     % Check Model Type
     if params.modelType == "PCA"
@@ -125,6 +129,10 @@ function [factorLoadings, estFactorRtns, portBetas, factorVols] = factorDecompos
 
     % Computing the first 'k' factors
     factorLoadings = eigenVectors(:, 1:k);
+    % Normalization for covariance matrix
+    if ~params.useCorrelation
+            factorLoadings = factorLoadings ./ sqrt(diag(inputMatrix));
+    end
 
     % Setting up factor rotation object
     rotation = factorRotation;
@@ -224,18 +232,16 @@ function [factorLoadings, estFactorRtns, portBetas, factorVols] = factorDecompos
                 'after rotation', 'bar');
         end
     end
-
-    % Compute Factor returns
-    estFactorRtns = mktRtns*factorLoadings;
-    % Compute portfolio betas
-    portReturns = mktRtns*myPositions';
+    
+    estFactorRtns = mktRtns * factorLoadings;
+    % Compute Portfolio Betas
+    portReturns=mktRtns*myPositions';
     estFactorRtnsWithIntercept = [estFactorRtns, ones( ...
-        params.factorConstructionLookback, 1)];
-    portBetas = regress(portReturns, estFactorRtnsWithIntercept);
-    portBetas = portBetas(1:4);
-    % Adjusting returns for volatility Lookback
-    rtnsAdjVolLookback = estFactorRtns(T - volLookback + 1:T, :);
+        size(estFactorRtns, 1), 1)];
+    portBetas = regress(portReturns, estFactorRtnsWithIntercept); 
+    portBetas = portBetas(1:k);
     % Computing Vol over Lookback period
+    rtnsAdjVolLookback = estFactorRtns(T - volLookback + 1:T, :);
     factorVols = std(rtnsAdjVolLookback);
 
 end

@@ -6,6 +6,7 @@ factorConstructionLookback = 60;
 volLookback = 60;
 tolerance = 1e-3;
 iterations = 100;
+useCorrelation = true; % Set to false to use covariance matrix for factor analysis
 kaiserNormalizeLoadings = true;  % true or false (use kaiser normalization
 % for loadings?)
 rotationType = '';  % '', varimax, quartimax, promax, equamax, 
@@ -82,6 +83,7 @@ params.factorConstructionLookback = factorConstructionLookback;
 params.volLookback = volLookback;
 params.tolerance = tolerance;
 params.iterations = iterations;
+params.useCorrelation = useCorrelation;
 params.kaiserNormalizeLoadings = kaiserNormalizeLoadings;
 params.rotationType = rotationType;
 params.builtInNormalizeLoadings = builtInNormalizeLoadings;

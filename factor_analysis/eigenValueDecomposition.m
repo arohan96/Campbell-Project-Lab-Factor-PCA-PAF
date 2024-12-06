@@ -1,36 +1,30 @@
 classdef eigenValueDecomposition
-
     properties
-        corrMatrix
+        inputMatrix
     end
 
     methods
-        
         function [eigenValues, eigenVectors] = PCA(obj)
         %% PCA
-        % Singular Value Decomposition for a given correlation matrix
+        % Eigenvalue Decomposition for a given input matrix
         %% Inputs
-        %   corrMatrix: correlation matrix of underlying factors
+        %   inputMatrix: correlation or covariance matrix of underlying factors
         %% Output
-        %   eigenValues: Eigenvalues arranged in decreasing order of 
-        %   magnitudeg
-        %   eigenVectors: A matrix where each column represents an 
-        %   eigenvector.
-        %   Columns arranged in order of decreasing corresponding 
-        %   eigenvalue
+        %   eigenValues: Eigenvalues arranged in decreasing order of magnitude
+        %   eigenVectors: A matrix where each column represents an eigenvector.
+        %   Columns arranged in order of decreasing corresponding eigenvalue
         
             % Eigenvalue Decomposition
-            [eigVecs, eigVals] = eig(obj.corrMatrix);
+            [eigVecs, eigVals] = eig(obj.inputMatrix);
             % Ordering eigenvalues and eigenvectors
             [eigenValues, idx] = sort(diag(eigVals), 'descend');
             eigenVectors = eigVecs(:, idx);
         end
 
-        function [eigenValues, eigenVectors, communalities] = PAF(obj, ...
-            tolerance, iterations)
+        function [eigenValues, eigenVectors, communalities] = PAF(obj, tolerance, iterations)
         %% PAF
-        % The PAF Model adopts an iterative process for SVD with a reduced
-        % correlation matrix. If we define our correlation matrix as C, we
+        % The PAF Model adopts an iterative process for SVD with a reduced matrix.
+        % Example: If we define our correlation matrix as C, we
         % define the reduced correlation matrix as the correlation matrix
         % but with diagonal elements replaced with 'communalities'.
         % Communalities are essentially the portion of each variable's
@@ -45,27 +39,25 @@ classdef eigenValueDecomposition
         % as the sum of squared loadings, and iteratively repeat
         % this process until we get a stable solution for communalities.
         % This function stops the iterative process when the max of the
-        % mabsolute value of the difference of communalities between
+        % absolute value of the difference of communalities between
         % the current and previous iteration is < tolerance level
-        % Estimate initial communalities as squared multiple correlation
+        % Estimate initial communalities as Zeroes
         %% Inputs:
-        %   corrMatrix: A square correlation matrix of underlying factors
-        %   tolerance: Tolerance level to use for convergence of 
-        %   communalities
+        %   inputMatrix: A square correlation or covariance matrix of underlying factors
+        %   tolerance: Tolerance level to use for convergence of communalities
         %   iterations: Maximum number of iterations to run
         %% Outputs:
-        %   eigenValues: Vector of eigenvalues ordered from highest to 
-        %   lowest (positive only)
-        %   eigenVectors: Matrix where each column represents an eigen 
-        %   vectorvcorresponding to an eigenvalue. Columns are ordered in 
+        %   eigenValues: Vector of eigenvalues ordered from highest to lowest (positive only)
+        %   eigenVectors: Matrix where each column represents an eigenvector
+        %   corresponding to an eigenvalue. Columns are ordered in 
         %   order of decreasing eigenvalue
         %   communalities: Final communalities amongst factors
             
-            corr_size = size(obj.corrMatrix);
+            matrix_size = size(obj.inputMatrix);
             % Set initial communalities as zero
-            u_curr = zeros(1, corr_size(1));
+            u_curr = zeros(1, matrix_size(1));
             u_curr = u_curr';
-            % Iteratively applying SVD to reduced correlation matrix until 
+            % Iteratively applying SVD to reduced matrix until 
             % the max of absolute difference between subsequent 
             % communalities is less than the tolerance level
             comm_diff = 1;
@@ -73,9 +65,9 @@ classdef eigenValueDecomposition
             while max(comm_diff) > tolerance && iteration <= iterations
                 iteration = iteration + 1;
                 u_prev = u_curr;
-                % Reduced correlation matrix
-                reducedMatrix = obj.corrMatrix;
-                n = size(obj.corrMatrix, 1);
+                % Reduced matrix
+                reducedMatrix = obj.inputMatrix;
+                n = matrix_size(1);
                 diagonal_indices = sub2ind([n, n], 1:n, 1:n);
                 reducedMatrix(diagonal_indices) = u_prev;
                 % Eigen value decomposition
@@ -87,8 +79,7 @@ classdef eigenValueDecomposition
                 % Only positive Eigenvalues
                 positiveEigenValues = max(eigenValues, 0);
                 % Scaling eigenvectors with standard deviation
-                eigenVectors = eigenVectors*diag(sqrt( ...
-                    positiveEigenValues));
+                eigenVectors = eigenVectors * diag(sqrt(positiveEigenValues));
                 % Update communalities
                 u_curr = sum(eigenVectors.^2, 2);
                 comm_diff = abs(u_curr - u_prev);
