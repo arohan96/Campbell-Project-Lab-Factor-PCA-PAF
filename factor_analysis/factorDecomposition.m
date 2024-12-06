@@ -129,9 +129,15 @@ function [factorLoadings, estFactorRtns, portBetas, factorVols] = factorDecompos
 
     % Computing the first 'k' factors
     factorLoadings = eigenVectors(:, 1:k);
-    % Normalization for covariance matrix
+    % % Normalization for covariance matrix
+    % if ~params.useCorrelation
+    %         factorLoadings = factorLoadings ./ sqrt(diag(inputMatrix));
+    % end
+
+    % Adjust scaling for covariance matrix
     if ~params.useCorrelation
-            factorLoadings = factorLoadings ./ sqrt(diag(inputMatrix));
+        stds = std(mktRtns); % Standard deviations of variables
+        factorLoadings = factorLoadings .* stds'; % Scale factor loadings
     end
 
     % Setting up factor rotation object
