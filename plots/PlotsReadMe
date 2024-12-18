@@ -1,0 +1,3 @@
+These plots show the SSE of PCA minus the SSE of PAF.  This should be interpreted as follows: If the confidence interval for a given factor (for instance 'F1') is above 0, then PAF is more accurate than PCA. If the confidence interval is below zero, then PCA is more accurate than PAF. If zero s in the interval, then no results can be concluded. The confidence level of these intervals is 95%. F1 is the most significant factor, F2 is the second most significant factor, etc. 
+
+The X axis on this graph represents the window size. For instance, at x = 100, this represents the difference in accuracy between the two models using 100 days worth of returns data.
