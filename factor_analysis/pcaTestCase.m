@@ -1,12 +1,7 @@
 %% params
 nDays = 500;
 nMkts = 1000;
-nTrueFactors = 4;
-drift = 0.0001;
-maxSecondFactorSize = 6;
 nFactorsToCompute = 4;
-idioVolScaler = 0.5;
-seedVal = -1;       % -1 => choose a new seed value
 modelType = 'PAF';
 factorConstructionLookback = 60;
 volLookback = 60;
